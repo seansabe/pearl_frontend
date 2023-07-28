@@ -26,6 +26,10 @@ export default function LoginForm() {
                 email,
                 password,
             });
+            
+             // Save logged in user to local storage
+             localStorage.setItem("currentUser", email);
+
             //setMessage(response.data.message);
             console.log(response.data.user); // To get the User object
             routeHome();
