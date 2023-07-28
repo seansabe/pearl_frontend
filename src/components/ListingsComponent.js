@@ -11,8 +11,7 @@ const ListingComponent = () => {
     console.log("get user full name");
     const response = await axios.get(`${api}/user/${userId}`);
     const user = response.data;
-    let fullName = `${user.firstName} ${user.lastName}`;
-    let userAddress = `${user.address}`;
+    //let fullName = `${user.firstName} ${user.lastName}`;
     return user;
   };
 
@@ -22,14 +21,13 @@ const ListingComponent = () => {
         const response = await axios.get(`${api}/service`);
         const listingsData = response.data;
 
-        // Fetch the user's full name for each listing
+        // Fetch the user(professional) information for each listing
         const updatedListings = await Promise.all(
           listingsData.map(async (listing) => {
             let user = await getUserInfo(listing.userId);
             return { ...listing, user };
           })
         );
-
         setListings(updatedListings);
       } catch (error) {
         console.error("Error fetching listings:", error);
