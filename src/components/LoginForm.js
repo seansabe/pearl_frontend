@@ -11,7 +11,7 @@ export default function LoginForm() {
 
     // Function to navigate from login page to home after verifying credentials
     let navigate = useNavigate();
-    const routeChange = () => {
+    const routeHome = () => {
         let path = '/home';
         navigate(path);
     }
@@ -27,8 +27,8 @@ export default function LoginForm() {
                 password,
             });
             //setMessage(response.data.message);
-            console.log(response.data.message);
-            routeChange();
+            console.log(response.data.user); // To get the User object
+            routeHome();
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setMessage('Invalid username or password');
