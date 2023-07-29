@@ -4,6 +4,7 @@ import Login from './views/Login';
 import Home from './views/Home';
 import Listings from './views/Listings';
 import Register from './views/Register';
+import CreatePost from './views/CreatePost';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/service" element={<Listings />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/createpost" element={<CreatePost />} />
       </Routes>
     </div>
   );
