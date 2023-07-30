@@ -1,4 +1,4 @@
-import { Input, Button } from '@mui/joy';
+import { Input, Button, Select } from '@mui/joy';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { api } from '../utils/api';
@@ -12,6 +12,10 @@ export default function RegisterForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [zip, setZip] = useState('');
+
 
     let navigate = useNavigate();
     const routeProfile = () => {
@@ -25,8 +29,11 @@ export default function RegisterForm() {
             const response = await axios.post(`${api}/user`, {
                 firstName: firstName,
                 lastName: lastName,
-                address: address,
                 phone: phone,
+                address: address,
+                city: city,
+                state: state,
+                zip: zip,
                 email: email,
                 password: password
             });
@@ -39,6 +46,9 @@ export default function RegisterForm() {
             console.error(error);
         }
     }
+    // const selectCity=(value)=>{
+    //     setCity(value);
+    // }
     const handleRegister = async () => {
         
         if(firstName === "" || lastName === "" || phone === "" || email === "" || password === ""){
@@ -94,7 +104,54 @@ export default function RegisterForm() {
                 size="lg"
                 variant="soft"
                 required
-            />  
+            />          
+            <div className='spacer'></div>
+            {/* <Select
+                onChange={(e) => selectCity(e.target.value)}
+                // value={city}
+                color="info"
+                disabled={false}
+                placeholder="City"
+                size="lg"
+                variant="soft"
+                required
+            >
+                <option value="Vancouver">Vancouver</option>
+                <option value="Toronto">Toronto</option>
+                <option value="Montreal">Montreal</option>
+            </Select> */}
+            <Input
+                onChange={(e) => setCity(e.target.value)}
+                value={city}
+                color="info"
+                disabled={false}
+                placeholder="City"
+                size="lg"
+                variant="soft"
+                required
+            /> 
+            <div className='spacer'></div>
+            <Input
+                onChange={(e) => setState(e.target.value)}
+                value={state}
+                color="info"
+                disabled={false}
+                placeholder="State"
+                size="lg"
+                variant="soft"
+                required
+            /> 
+            <div className='spacer'></div>
+            <Input
+                onChange={(e) => setZip(e.target.value)}
+                value={zip}
+                color="info"
+                disabled={false}
+                placeholder="ZIP"
+                size="lg"
+                variant="soft"
+                required
+            /> 
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setPhone(e.target.value)}
@@ -131,11 +188,13 @@ export default function RegisterForm() {
             />
             <div className='spacer'></div>
             <Button
+                id="registerButton"
                 color="info"
                 onClick={handleRegister}
                 size="lg"
                 variant="solid"
                 fullWidth
+                disabled={firstName === "" || lastName === "" || address === ""  || city === "" || state === "" || zip === "" || phone === "" || email === "" || password === "" } 
             >Register</Button>
             <div className='spacer'></div>
             <Button

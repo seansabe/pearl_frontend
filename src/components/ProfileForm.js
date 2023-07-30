@@ -14,6 +14,9 @@ export default function ProfileForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [zip, setZip] = useState('');
 
 
     useEffect(() => {
@@ -28,6 +31,9 @@ export default function ProfileForm() {
             setPhone(user.phone);
             setEmail(user.email);
             setPassword(user.password);
+            setCity(user.city);
+            setState(user.state);
+            setZip(user.zip);
         }
     }, []);
     const saveUser = async () =>{
@@ -36,6 +42,9 @@ export default function ProfileForm() {
                 firstName: firstName,
                 lastName: lastName,
                 address: address,
+                city: city,
+                state: state,
+                zip: zip,
                 phone: phone,
                 email: email,
                 password: password
@@ -65,7 +74,7 @@ export default function ProfileForm() {
     
     const handleSaveButton = async () => {
         setMessage('');
-        if(firstName === "" || lastName === "" || phone === "" || email === "" ){
+        if(firstName === "" || lastName === "" || address === "" || city === "" || state === "" || zip === "" || phone === "" || email === ""  ){
             setMessage('Fill the form, please.');
         }else{
             let emailCheck = true;
@@ -76,7 +85,6 @@ export default function ProfileForm() {
                     if(user.email === email && user._id !== id){
                         setMessage("There is user with such email");
                         emailCheck = false;
-                        
                     }
                 });
             }catch(error){
@@ -123,6 +131,39 @@ export default function ProfileForm() {
                 variant="soft"
                 required
             />  
+            <div className='spacer'></div>            
+            <Input
+                onChange={(e) => setCity(e.target.value)}
+                value={city}
+                color="info"
+                disabled={false}
+                placeholder="City"
+                size="lg"
+                variant="soft"
+                required
+            /> 
+            <div className='spacer'></div>
+            <Input
+                onChange={(e) => setState(e.target.value)}
+                value={state}
+                color="info"
+                disabled={false}
+                placeholder="State"
+                size="lg"
+                variant="soft"
+                required
+            /> 
+            <div className='spacer'></div>
+            <Input
+                onChange={(e) => setZip(e.target.value)}
+                value={zip}
+                color="info"
+                disabled={false}
+                placeholder="ZIP"
+                size="lg"
+                variant="soft"
+                required
+            /> 
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setPhone(e.target.value)}
@@ -152,6 +193,7 @@ export default function ProfileForm() {
                 size="lg"
                 variant="solid"
                 fullWidth
+                disabled={firstName === "" || lastName === "" || address === ""  || city === "" || state === "" || zip === "" || phone === "" || email === "" }
             >Save</Button>
             <div className='spacer'></div>
             <Button

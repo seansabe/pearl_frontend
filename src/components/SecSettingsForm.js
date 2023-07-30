@@ -17,6 +17,9 @@ export default function SecSettingsForm() {
     const [newPassword, setNewPassword] = useState('');
     const [newPasswordRepeat, setNewPasswordRepeat] = useState('');
     const [message, setMessage] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [zip, setZip] = useState('');
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -30,6 +33,9 @@ export default function SecSettingsForm() {
             setPhone(user.phone);
             setEmail(user.email);
             setPassword(user.password);
+            setCity(user.city);
+            setState(user.state);
+            setZip(user.zip);
         }
     }, []);
 
@@ -46,6 +52,9 @@ export default function SecSettingsForm() {
                 firstName: firstName,
                 lastName: lastName,
                 address: address,
+                city: city,
+                state: state,
+                zip: zip,
                 phone: phone,
                 email: email,
                 password: newPassword
@@ -57,6 +66,9 @@ export default function SecSettingsForm() {
                                                 firstName: firstName,
                                                 lastName: lastName,
                                                 address: address,
+                                                city: city,
+                                                state: state,
+                                                zip: zip,
                                                 phone: phone,
                                                 email: email,
                                                 password: newPassword}));
@@ -129,6 +141,7 @@ export default function SecSettingsForm() {
                 size="lg"
                 variant="solid"
                 fullWidth
+                disabled={oldPassword === "" || newPassword === "" || newPasswordRepeat === ""}
             >Save</Button>
             <div className='spacer'></div>
             <p id='message'>{message}</p>
