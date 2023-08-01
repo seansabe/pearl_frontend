@@ -5,9 +5,17 @@ import { Input, Button } from '@mui/joy';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Textarea from '@mui/joy/Textarea';
+import { useNavigate } from "react-router-dom";
+import { Modal } from '@mui/joy';
+import { ModalClose } from '@mui/joy';
+import Typography from '@mui/joy/Typography';
+import Sheet from '@mui/joy/Sheet';
 
 
 const CreatePost = () => {
+  
+  // const for Modal
+  const [open, setOpen] = React.useState(false);  
 
   const [currentUser, setCurrentUser] = useState("");
   const [createPostRequest, setCreatePostRequest] = useState({
@@ -25,7 +33,63 @@ const CreatePost = () => {
     getCurrentUser();
   }, []);
 
+  let navigate = useNavigate();
+  const turnBack = () => {
+      let path = `/home`;
+      navigate(path);
+  }
 
+  const goServicePage = () => {
+    let path = `/service`;
+    navigate(path);
+  }
+
+  const BasicModal = () => {
+    return (
+      <React.Fragment>
+        <Modal
+          open={open}
+          onClose={() => goServicePage()}
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Sheet
+            variant="soft"
+            color="success"
+            sx={{
+              maxWidth: 500,
+              borderRadius: 'md',
+              p: 3,
+              boxShadow: 'lg',
+            }}
+          >
+            <ModalClose
+              variant="soft"
+              sx={{
+                top: 'calc(-1/4 * var(--IconButton-size))',
+                right: 'calc(-1/4 * var(--IconButton-size))',
+                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                borderRadius: '50%',
+                bgcolor: 'background.surface',
+              }}
+            />
+            <Typography
+              component="h2"
+              id="modal-title"
+              level="h4"
+              textColor="inherit"
+              fontWeight="lg"
+              mb={1}
+            >
+              Success
+            </Typography>
+            <Typography id="modal-desc" textColor="text.tertiary">
+            New service created successfully. You'll be redirected to the service page.
+            </Typography>
+          </Sheet>
+        </Modal>
+      </React.Fragment>
+    );
+            }
   const createPost = (event) => {
     event.preventDefault();
     if (
@@ -46,6 +110,7 @@ const CreatePost = () => {
           let service = response.data;
           console.log(service);
           setMessage("Service created successfully");
+          setOpen(true)
           setCreatePostRequest({
             userId: "",
             name: "",
@@ -95,9 +160,10 @@ const CreatePost = () => {
             src={process.env.PUBLIC_URL + `/images/${selectedService.replace(/\s/g, '').toLowerCase()}.png`}
             className="card-img-top"
             style={{ width: "440px", height: "315px" }}
+            alt="service type"
           />
           <div className="card-body">
-            <div className="card-rating">5 Stars (12 Reviews)</div>
+            <div className="card-rating">5 Stars (12 Reviews){BasicModal()}</div>
             <div className="card-service-type">{createPostRequest.kindOfService}</div>
             <h2 className="card-title">
               {createPostRequest.name || "Service Name "} <br></br><span className="card-user"> by {currentUser.firstName}</span>
@@ -124,7 +190,7 @@ const CreatePost = () => {
           <div className="form-header">
             <button className="back-btn"
               color="info"
-              onClick={() => window.history.back()} /* TO DO: Add a link to the previous page */
+              onClick={turnBack}
               size="md"
               variant="solid"
               fullWidth
