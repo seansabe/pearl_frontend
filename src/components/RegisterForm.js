@@ -40,6 +40,7 @@ export default function RegisterForm() {
             console.log(response.data);
             if (response.data){
                 localStorage.setItem('user', JSON.stringify(response.data));
+                localStorage.setItem('currentUser',response.data.email);
                 routeProfile();
             }
         } catch (error) {

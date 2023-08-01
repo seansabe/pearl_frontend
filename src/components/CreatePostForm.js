@@ -64,9 +64,11 @@ const CreatePost = () => {
   const getCurrentUser = async () => {
     try {
       // get user by email
-      const email = localStorage.getItem("currentUser");
+      console.log("get current user");
+      const email = localStorage.getItem('currentUser');
       const response = await axios.get(`${api}/user/email/${email}`);
       const user = response.data;
+      console.log(user);
       setCurrentUser(user);
       console.log("Current user's email is : " + email);
     } catch (error) {

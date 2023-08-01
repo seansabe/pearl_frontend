@@ -11,6 +11,7 @@ const ListingComponent = () => {
     console.log("get user full name");
     const response = await axios.get(`${api}/user/${userId}`);
     const user = response.data;
+    console.log(user);
     //let fullName = `${user.firstName} ${user.lastName}`;
     return user;
   };
