@@ -19,6 +19,8 @@ export default function CustomRating() {
   return (
       <Box sx={{display: 'flex', alignItems: 'center' }}>
         <StyledRating
+          style={{ marginTop: "4px" }}
+          size="small"
           name="customized-color"
           defaultValue={4}
           getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}

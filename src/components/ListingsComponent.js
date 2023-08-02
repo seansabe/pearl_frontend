@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from '@mui/joy';
 import { api } from '../utils/api';
+import CustomRating from "./CustomRating";
 
 
 const ListingComponent = () => {
@@ -56,9 +57,9 @@ const ListingComponent = () => {
             style={{ width: "318px", height: "228px" }}
           />
           <div className="card-body">
-            <div className="card-rating">5 Stars (12 Reviews) { /* make dynamic */ } </div>
+            <div className="card-rating"><CustomRating/>{ /* make dynamic */ } </div>
             <div className="card-service-type">{listing.kindOfService}</div>
-            <h2 className="card-title">
+            <h2 className="card-title"  style={{ marginTop: "0px" }}>
               {listing.name} <br></br><span className="card-user"> by { listing.user.firstName }</span>
             </h2>
             <div className="card-address">{ listing.user.city }</div>
