@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button } from "@mui/joy";
 import { api } from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import CustomRating from "./CustomRating";
 
 const ListingComponent = () => {
   const [listings, setListings] = useState([]);
