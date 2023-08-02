@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Button } from '@mui/joy';
-import { api } from '../utils/api';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Button } from "@mui/joy";
+import { api } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 import CustomRating from "./CustomRating";
-
 
 const ListingComponent = () => {
   const [listings, setListings] = useState([]);
@@ -39,39 +39,71 @@ const ListingComponent = () => {
     fetchListings();
   }, []);
 
+  // Inside the ListingComponent
+  const navigate = useNavigate();
 
   const handleBook = (listingId) => {
     // Handle booking logic here for the given listingId
     // For example, you can redirect to a booking page or show a modal to confirm the booking.
     console.log(`Booking listing with id: ${listingId}`);
+    navigate(`/booking/${listingId}`);
   };
 
-
   return (
-  <div style={{ display: "flex", flexWrap: "wrap" }}>
+    <div style={{ display: "flex", flexWrap: "wrap" }}>
       {listings.map((listing) => (
-    <div key={listing._id} className="card" style={{ padding: "20px", borderRadius: "10px", backgroundColor: "#ffffff", margin:"5px" ,border: "1px solid #dddddd" }}>
-    <img
-            src={process.env.PUBLIC_URL + `/images/${listing.kindOfService.replace(/\s/g, '').toLowerCase()}.png`}
+        <div
+          key={listing._id}
+          className="card"
+          style={{
+            padding: "20px",
+            borderRadius: "10px",
+            backgroundColor: "#ffffff",
+            margin: "5px",
+            border: "1px solid #dddddd",
+          }}
+        >
+          <img
+            src={
+              process.env.PUBLIC_URL +
+              `/images/${listing.kindOfService
+                .replace(/\s/g, "")
+                .toLowerCase()}.png`
+            }
             className="card-img-top"
             style={{ width: "318px", height: "228px" }}
           />
           <div className="card-body">
-            <div className="card-rating"><CustomRating/>{ /* make dynamic */ } </div>
+            <div className="card-rating">
+              5 Stars (12 Reviews) {/* make dynamic */}{" "}
+            </div>
             <div className="card-service-type">{listing.kindOfService}</div>
-            <h2 className="card-title"  style={{ marginTop: "0px" }}>
-              {listing.name} <br></br><span className="card-user"> by { listing.user.firstName }</span>
+            <h2 className="card-title">
+              {listing.name} <br></br>
+              <span className="card-user"> by {listing.user.firstName}</span>
             </h2>
-            <div className="card-address">{ listing.user.city }</div>
-            <div className="card-service-description" style={{ marginBottom:"10px",width: "318px", height: "50px", overflowY: "auto" }}>
-            {listing.name} Services Starting From ${listing.price} <br></br> {listing.description} </div>
+            <div className="card-address">{listing.user.city}</div>
+            <div
+              className="card-service-description"
+              style={{
+                marginBottom: "10px",
+                width: "318px",
+                height: "50px",
+                overflowY: "auto",
+              }}
+            >
+              {listing.name} Services Starting From ${listing.price} <br></br>{" "}
+              {listing.description}{" "}
+            </div>
             <Button
-            color="info"
-            onClick={() => handleBook(listing._id)}
-            size="lg"
-            variant="solid"
-            fullWidth
-            >Book Now</Button>
+              color="info"
+              onClick={() => handleBook(listing._id)}
+              size="lg"
+              variant="solid"
+              fullWidth
+            >
+              Book Now
+            </Button>
           </div>
         </div>
       ))}

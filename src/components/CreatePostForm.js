@@ -178,8 +178,6 @@ const CreatePost = () => {
           </div>
         </div>
       </div>
-
-
     );
   };
 
