@@ -10,12 +10,11 @@ import { Modal } from '@mui/joy';
 import { ModalClose } from '@mui/joy';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
-
-
+import CustomRating from "./CustomRating";
 const CreatePost = () => {
-  
+
   // const for Modal
-  const [open, setOpen] = React.useState(false);  
+  const [open, setOpen] = React.useState(false);
 
   const [currentUser, setCurrentUser] = useState("");
   const [createPostRequest, setCreatePostRequest] = useState({
@@ -35,8 +34,8 @@ const CreatePost = () => {
 
   let navigate = useNavigate();
   const turnBack = () => {
-      let path = `/home`;
-      navigate(path);
+    let path = `/home`;
+    navigate(path);
   }
 
   const goServicePage = () => {
@@ -83,13 +82,14 @@ const CreatePost = () => {
               Success
             </Typography>
             <Typography id="modal-desc" textColor="text.tertiary">
-            New service created successfully. You'll be redirected to the service page.
+              New service created successfully. You'll be redirected to the service page.
             </Typography>
           </Sheet>
         </Modal>
       </React.Fragment>
     );
-            }
+  }
+
   const createPost = (event) => {
     event.preventDefault();
     if (
@@ -163,9 +163,9 @@ const CreatePost = () => {
             alt="service type"
           />
           <div className="card-body">
-            <div className="card-rating">5 Stars (12 Reviews){BasicModal()}</div>
+            <div className="card-rating">{CustomRating()} {BasicModal()}</div>
             <div className="card-service-type">{createPostRequest.kindOfService}</div>
-            <h2 className="card-title">
+            <h2 className="card-title" style={{ marginTop: "0px" }}>
               {createPostRequest.name || "Service Name "} <br></br><span className="card-user"> by {currentUser.firstName}</span>
             </h2>
             <div className="card-address">{currentUser.city}</div>
