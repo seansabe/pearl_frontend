@@ -1,5 +1,5 @@
 import { Input, Button } from '@mui/joy';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { api } from '../utils/api';
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,14 @@ export default function LoginForm() {
         let path = `/register`;
         navigate(path);
     }
+
+    useEffect(() => {
+        const currentUser = localStorage.getItem("currentUser");
+        if (currentUser) {
+            setEmail(currentUser);
+            routeHome();
+        }
+    }, []);
 
     const handleLogin = async () => {
         try {
