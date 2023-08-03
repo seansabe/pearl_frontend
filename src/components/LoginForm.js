@@ -1,5 +1,5 @@
 import { Input, Button } from '@mui/joy';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { api } from '../utils/api';
 import { useNavigate } from "react-router-dom";
@@ -20,17 +20,34 @@ export default function LoginForm() {
         navigate(path);
     }
 
+    useEffect(() => {
+        const currentUser = localStorage.getItem("currentUser");
+        if (currentUser) {
+            setEmail(currentUser);
+            routeHome();
+        }
+    }, []);
+    
+
     const handleLogin = async () => {
+        let userFullInfo="";
         try {
             const response = await axios.post(`${api}/login`, {
                 email,
                 password,
             });
-
+            try{
+                const db = await axios.get(`${api}/user`);
+                db.data.forEach(user => {
+                    if(user.email === email){
+                        userFullInfo = user
+                    }
+                });
+            }catch(error){
+                console.error(error);
+            }
+            localStorage.setItem("user", JSON.stringify(userFullInfo));
             localStorage.setItem("currentUser", email);
-
-            //setMessage(response.data.message);
-            console.log(response.data.user); // To get the User object
             routeHome();
         } catch (error) {
             if (error.response && error.response.status === 401) {

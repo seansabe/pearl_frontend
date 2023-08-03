@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 
 export default function Nav({ onNavClick }) {
     const endpointToId = {
@@ -19,6 +21,16 @@ export default function Nav({ onNavClick }) {
             }
         });
     };
+    let navigate = useNavigate();
+    const routeLogin = () => {
+        let path = `/`;
+        navigate(path);
+    }
+    const logout=()=>{
+        localStorage.setItem("currentUser", "");
+        localStorage.setItem("user", "");
+        routeLogin();
+    }
 
     return (
         <div className="nav">
@@ -31,7 +43,7 @@ export default function Nav({ onNavClick }) {
                 <a id="CreatePost" onClick={() => handleNavClick("CreatePost")}>Offer a Service</a>
                 <a id="" onClick={() => handleNavClick("my-offers")}>My Offers</a>
                 <a id="Profile" onClick={() => handleNavClick("Profile")}>My Profile</a>
-                <a className="logout" href="/">
+                <a className="logout" onClick={() =>logout()}>
                     Log Out
                 </a>
             </div>
