@@ -51,9 +51,22 @@ export default function ProfileForm(props) {
                 password: password
             });
             console.log(response.data);
-            if (response.data){
-                // localStorage.setItem('user', JSON.stringify(response.data));
+            if (response.data.acknowledged){
+                localStorage.setItem('user', JSON.stringify({
+                    _id: id,
+                    firstName: firstName,
+                    lastName: lastName,
+                    address: address,
+                    city: city,
+                    state: state,
+                    zip: zip,
+                    phone: phone,
+                    email: email,
+                    password: password
+                }));
                 console.log("User saved successfully");
+            }else{
+                setMessage("Saving is not successful")
             }
         } catch (error) {
             console.error(error);
