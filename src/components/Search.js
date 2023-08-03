@@ -19,7 +19,7 @@ const Search = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <form onSubmit={handleSearch}>
         <input
           type="text"

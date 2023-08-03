@@ -26,9 +26,9 @@ export default function LoginForm() {
                 email,
                 password,
             });
-            
-             // Save logged in user to local storage
-             localStorage.setItem("currentUser", email);
+
+            // Save logged in user to local storage
+            localStorage.setItem("currentUser", email);
 
             //setMessage(response.data.message);
             console.log(response.data.user); // To get the User object
@@ -43,7 +43,7 @@ export default function LoginForm() {
         }
     };
     return (
-        <form>
+        <form className='login'>
             <h1>Pearl</h1>
             <Input
                 onChange={(e) => setEmail(e.target.value)}

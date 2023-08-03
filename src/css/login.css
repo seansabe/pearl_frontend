@@ -17,13 +17,13 @@ form {
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
-form h1 {
-    font-family: 'Pacifico', cursive;
-    color: #BA7894;
+form.login h1 {
+    font-family: 'Big Shoulders Inline Text', cursive;
+    color: #814DDE;
     font-size: 40px;
 }
 
-p#message {
+.login p#message {
     color: red;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Raleway', sans-serif;
 }
