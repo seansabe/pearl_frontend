@@ -75,10 +75,10 @@ const ListingComponent = () => {
           />
           <div className="card-body">
             <div className="card-rating">
-              5 Stars (12 Reviews) {/* make dynamic */}{" "}
+            <CustomRating/>{/* make dynamic */}
             </div>
             <div className="card-service-type">{listing.kindOfService}</div>
-            <h2 className="card-title">
+            <h2 className="card-title" style={{ marginTop: "0px" }}>
               {listing.name} <br></br>
               <span className="card-user"> by {listing.user.firstName}</span>
             </h2>
