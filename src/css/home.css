@@ -1,0 +1,59 @@
+.nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    background-color: #F1F1F1;
+    padding: 15px;
+    width: 100%;
+}
+
+.nav a {
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    font-weight: 200;
+    text-decoration: none;
+    color: #606060;
+    font-size: 15px;
+    margin: 0 10px;
+    padding: 10px;
+    border: 1px solid #F1F1F1;
+    border-radius: 5px;
+}
+
+.nav a:hover {
+    color: #000;
+    cursor: pointer;
+    border: 1px solid #606060;
+    border-radius: 5px;
+}
+
+.nav .active {
+    color: #000;
+    cursor: pointer;
+    border: 1px solid #606060;
+    border-radius: 5px;
+}
+
+.nav .logout {
+    padding: 10px;
+    background-color: #814DDE;
+    border: 1px solid #814DDE;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 5px;
+}
+
+.nav .logout:hover {
+    color: #fff;
+    background-color: #5F35AE;
+    border: 1px solid #5F35AE;
+}
+
+.nav h2 {
+    font-family: 'Big Shoulders Inline Text', cursive;
+    color: #814DDE;
+    font-size: 40px;
+    line-height: 40px;
+    margin: 0;
+}
