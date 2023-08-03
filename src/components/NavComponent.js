@@ -4,6 +4,7 @@ export default function Nav({ onNavClick }) {
         Listings: "Listings",
         CreatePost: "CreatePost",
         Profile: "Profile",
+        SecSettings: "SecSettings"
     };
 
     const handleNavClick = (endpoint) => {

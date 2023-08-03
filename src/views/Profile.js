@@ -3,10 +3,10 @@ import '../css/login.css';
 import ProfileForm from '../components/ProfileForm';
 
 
-export default function Profile() {
+export default function Profile(props) {
     return (
         <div className='container'>
-            <ProfileForm></ProfileForm>
+            <ProfileForm handleNavClick={props.handleNavClick}></ProfileForm>
         </div>
     );
 }

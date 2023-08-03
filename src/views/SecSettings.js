@@ -3,10 +3,10 @@ import '../css/login.css';
 import SecSettingsForm from '../components/SecSettingsForm';
 
 
-export default function SecSettings() {
+export default function SecSettings(props) {
     return (
         <div className='container'>
-            <SecSettingsForm></SecSettingsForm>
+            <SecSettingsForm handleNavClick={props.handleNavClick}></SecSettingsForm>
         </div>
     );
 }

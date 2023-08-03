@@ -5,6 +5,8 @@ import { api } from '../utils/api';
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
+    
+    const [id, setID] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [address, setAddress] = useState('');
@@ -22,7 +24,10 @@ export default function RegisterForm() {
         let path = `/profile`;
         navigate(path);
     }
-
+    const routeLogin = () => {
+        let path = `/`;
+        navigate(path);
+    }
 
     const saveUser = async () =>{
         try {
@@ -41,7 +46,6 @@ export default function RegisterForm() {
             if (response.data){
                 localStorage.setItem('user', JSON.stringify(response.data));
                 localStorage.setItem('currentUser',response.data.email);
-                routeProfile();
             }
         } catch (error) {
             console.error(error);
@@ -69,6 +73,7 @@ export default function RegisterForm() {
             }
             if(emailCheck){
                 saveUser();
+                routeLogin();
             }
         };      
     };

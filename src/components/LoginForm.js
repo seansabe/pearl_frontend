@@ -27,7 +27,6 @@ export default function LoginForm() {
                 password,
             });
 
-            // Save logged in user to local storage
             localStorage.setItem("currentUser", email);
 
             //setMessage(response.data.message);

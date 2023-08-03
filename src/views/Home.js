@@ -4,6 +4,8 @@ import '../css/home.css'
 import Listings from "./Listings";
 import CreatePost from "./CreatePost";
 import Profile from "./Profile";
+
+import SecSettings from "./SecSettings";
 import Login from "./Login";
 
 export default function Home() {
@@ -17,7 +19,8 @@ export default function Home() {
             <Nav onNavClick={handleNavClick}></Nav>
             {selectedEndpoint === 'Listings' && <Listings />}
             {selectedEndpoint === 'CreatePost' && <CreatePost />}
-            {selectedEndpoint === 'Profile' && <Profile />}
+            {selectedEndpoint === 'Profile' && <Profile handleNavClick={handleNavClick}/>}
+            {selectedEndpoint === 'SecSettings' && <SecSettings handleNavClick={handleNavClick}/>}
             {selectedEndpoint === 'Login' && <Login />}
         </div>
     );
