@@ -20,10 +20,6 @@ export default function RegisterForm() {
 
 
     let navigate = useNavigate();
-    const routeProfile = () => {
-        let path = `/profile`;
-        navigate(path);
-    }
     const routeLogin = () => {
         let path = `/`;
         navigate(path);
@@ -205,7 +201,7 @@ export default function RegisterForm() {
             <div className='spacer'></div>
             <Button
                 color="info"
-                onClick={routeProfile}
+                onClick={routeLogin}
                 size="lg"
                 variant="solid"
                 fullWidth
