@@ -5,7 +5,7 @@ import { api } from '../utils/api';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 
-export default function ProfileForm() {
+export default function ProfileForm(props) {
     const [id, setId] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -36,6 +36,7 @@ export default function ProfileForm() {
             setZip(user.zip);
         }
     }, []);
+
     const saveUser = async () =>{
         try {
             const response = await axios.patch(`${api}/user/${id}`, {
@@ -50,9 +51,22 @@ export default function ProfileForm() {
                 password: password
             });
             console.log(response.data);
-            if (response.data){
-                localStorage.setItem('user', JSON.stringify(response.data));
+            if (response.data.acknowledged){
+                localStorage.setItem('user', JSON.stringify({
+                    _id: id,
+                    firstName: firstName,
+                    lastName: lastName,
+                    address: address,
+                    city: city,
+                    state: state,
+                    zip: zip,
+                    phone: phone,
+                    email: email,
+                    password: password
+                }));
                 console.log("User saved successfully");
+            }else{
+                setMessage("Saving is not successful")
             }
         } catch (error) {
             console.error(error);
@@ -60,14 +74,12 @@ export default function ProfileForm() {
     }
     
     let navigate = useNavigate();
-    const routeProfile = () => {
-        let path = `/profile`;
-        navigate(path);
+    const routeHome = () => {
+        props.handleNavClick("Listings");
     }
 
     const routeSecSettings = () => {
-        let path = `/security`;
-        navigate(path);
+        props.handleNavClick("SecSettings");
     }
 
     
@@ -92,6 +104,7 @@ export default function ProfileForm() {
             }
             if(emailCheck){
                 saveUser();
+                routeHome();
             }else{
                 console.log("error");
             }
