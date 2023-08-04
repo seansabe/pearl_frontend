@@ -3,6 +3,7 @@ export default function Nav({ onNavClick }) {
         Listings: "Listings",
         CreatePost: "CreatePost",
         Profile: "Profile",
+        SecSettings: "SecSettings",
     };
 
     const handleNavClick = (endpoint) => {
@@ -20,6 +21,7 @@ export default function Nav({ onNavClick }) {
 
     const handleLogout = () => {
         localStorage.removeItem("currentUser");
+        localStorage.removeItem("user");
     };
 
     return (
@@ -28,24 +30,12 @@ export default function Nav({ onNavClick }) {
                 <h2>Pearl</h2>
             </div>
             <div className="links">
-                <a className="active" id="Listings" onClick={() => handleNavClick("Listings")}>
-                    Hire a Service
-                </a>
-                <a id="" onClick={() => handleNavClick("my-hires")}>
-                    My Hires
-                </a>
-                <a id="CreatePost" onClick={() => handleNavClick("CreatePost")}>
-                    Offer a Service
-                </a>
-                <a id="" onClick={() => handleNavClick("my-offers")}>
-                    My Offers
-                </a>
-                <a id="Profile" onClick={() => handleNavClick("Profile")}>
-                    My Profile
-                </a>
-                <a className="logout" href="/" onClick={handleLogout}>
-                    Log Out
-                </a>
+                <a className="active" id="Listings" onClick={() => handleNavClick("Listings")}>Hire a Service</a>
+                <a id="" onClick={() => handleNavClick("my-hires")}>My Hires</a>
+                <a id="CreatePost" onClick={() => handleNavClick("CreatePost")}>Offer a Service</a>
+                <a id="" onClick={() => handleNavClick("my-offers")}>My Offers</a>
+                <a id="Profile" onClick={() => handleNavClick("Profile")}>My Profile</a>
+                <a className="logout" href="/" onClick={handleLogout}>Log Out</a>
             </div>
         </div>
     );

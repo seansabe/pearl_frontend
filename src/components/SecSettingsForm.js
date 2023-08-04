@@ -5,7 +5,7 @@ import { api } from '../utils/api';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 
-export default function SecSettingsForm() {
+export default function SecSettingsForm(props) {
     const [id, setId] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -39,10 +39,8 @@ export default function SecSettingsForm() {
         }
     }, []);
 
-    let navigate = useNavigate();
     const routeProfile = () => {
-        let path = `/profile`;
-        navigate(path);
+        props.handleNavClick("Profile");
     }
 
 
