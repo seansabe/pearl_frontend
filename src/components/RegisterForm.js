@@ -1,12 +1,12 @@
-import { Input, Button, Select } from '@mui/joy';
+import { Input, Button } from '@mui/joy';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { api } from '../utils/api';
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
-    
-    const [id, setID] = useState('');
+
+    //const [id, setID] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [address, setAddress] = useState('');
@@ -20,8 +20,8 @@ export default function RegisterForm() {
 
 
     let navigate = useNavigate();
-    const routeProfile = () => {
-        let path = `/profile`;
+    const routeHome = () => {
+        let path = `/home`;
         navigate(path);
     }
     const routeLogin = () => {
@@ -29,7 +29,7 @@ export default function RegisterForm() {
         navigate(path);
     }
 
-    const saveUser = async () =>{
+    const saveUser = async () => {
         try {
             const response = await axios.post(`${api}/user`, {
                 firstName: firstName,
@@ -43,9 +43,9 @@ export default function RegisterForm() {
                 password: password
             });
             console.log(response.data);
-            if (response.data){
+            if (response.data) {
                 localStorage.setItem('user', JSON.stringify(response.data));
-                localStorage.setItem('currentUser',response.data.email);
+                localStorage.setItem('currentUser', response.data.email);
             }
         } catch (error) {
             console.error(error);
@@ -55,38 +55,37 @@ export default function RegisterForm() {
     //     setCity(value);
     // }
     const handleRegister = async () => {
-        
-        if(firstName === "" || lastName === "" || phone === "" || email === "" || password === ""){
+
+        if (firstName === "" || lastName === "" || phone === "" || email === "" || password === "") {
             setMessage('Fill the table, please.');
-        }else{
+        } else {
             let emailCheck = true;
-            try{
+            try {
                 const response = await axios.get(`${api}/user`);
                 response.data.forEach(user => {
-                    if(user.email === email){
+                    if (user.email === email) {
                         setMessage("There is user with such email");
                         emailCheck = false;
                     }
                 });
-            }catch(error){
+            } catch (error) {
                 console.error(error);
             }
-            if(emailCheck){
+            if (emailCheck) {
                 saveUser();
-                routeLogin();
+                routeHome();
             }
-        };      
+        };
     };
     return (
-        <form>
-            <h1>Register</h1>
+        <form className='registration-form'>
+            <h1>Create an Account</h1>
             <Input
                 onChange={(e) => setFirstName(e.target.value)}
                 value={firstName}
                 color="info"
                 placeholder="First Name"
                 size="lg"
-                variant="soft"
                 required
             />
             <div className='spacer'></div>
@@ -97,9 +96,8 @@ export default function RegisterForm() {
                 disabled={false}
                 placeholder="Last Name"
                 size="lg"
-                variant="soft"
                 required
-            />          
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setAddress(e.target.value)}
@@ -108,9 +106,8 @@ export default function RegisterForm() {
                 disabled={false}
                 placeholder="Address"
                 size="lg"
-                variant="soft"
                 required
-            />          
+            />
             <div className='spacer'></div>
             {/* <Select
                 onChange={(e) => selectCity(e.target.value)}
@@ -133,9 +130,8 @@ export default function RegisterForm() {
                 disabled={false}
                 placeholder="City"
                 size="lg"
-                variant="soft"
                 required
-            /> 
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setState(e.target.value)}
@@ -144,9 +140,8 @@ export default function RegisterForm() {
                 disabled={false}
                 placeholder="State"
                 size="lg"
-                variant="soft"
                 required
-            /> 
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setZip(e.target.value)}
@@ -155,9 +150,8 @@ export default function RegisterForm() {
                 disabled={false}
                 placeholder="ZIP"
                 size="lg"
-                variant="soft"
                 required
-            /> 
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setPhone(e.target.value)}
@@ -166,9 +160,8 @@ export default function RegisterForm() {
                 disabled={false}
                 placeholder="Phone"
                 size="lg"
-                variant="soft"
                 required
-            /> 
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setEmail(e.target.value)}
@@ -177,7 +170,6 @@ export default function RegisterForm() {
                 disabled={false}
                 placeholder="Email"
                 size="lg"
-                variant="soft"
                 required
             />
             <div className='spacer'></div>
@@ -189,7 +181,6 @@ export default function RegisterForm() {
                 disabled={false}
                 placeholder="Password"
                 size="lg"
-                variant="soft"
                 required
             />
             <div className='spacer'></div>
@@ -200,16 +191,16 @@ export default function RegisterForm() {
                 size="lg"
                 variant="solid"
                 fullWidth
-                disabled={firstName === "" || lastName === "" || address === ""  || city === "" || state === "" || zip === "" || phone === "" || email === "" || password === "" } 
-            >Register</Button>
+                disabled={firstName === "" || lastName === "" || address === "" || city === "" || state === "" || zip === "" || phone === "" || email === "" || password === ""}
+            >Create</Button>
             <div className='spacer'></div>
             <Button
                 color="info"
-                onClick={routeProfile}
+                onClick={routeLogin}
                 size="lg"
                 variant="solid"
                 fullWidth
-            >Login</Button>
+            >Cancel</Button>
             <p id='message'>{message}</p>
         </form>
     );

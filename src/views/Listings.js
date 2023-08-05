@@ -6,7 +6,7 @@ import '../css/listings.css'
 
 export default function Listings() {
   return (
-    <div>
+    <div className="listing-container">
       <Search />
       <ListingsComponent></ListingsComponent>
     </div>

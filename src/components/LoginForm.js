@@ -40,11 +40,12 @@ export default function LoginForm() {
             localStorage.setItem("user", JSON.stringify(response.data.user));
 
             //setMessage(response.data.message);
-            console.log(response.data.user); // To get the User object
+            //console.log(response.data.user); // To get the User object
             routeHome();
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setMessage('Invalid username or password');
+                document.getElementById('message').style.display = 'block';
             } else {
                 setMessage('An error occurred while logging in.');
             }
@@ -52,8 +53,8 @@ export default function LoginForm() {
         }
     };
     return (
-        <form className='login'>
-            <h1>Pearl</h1>
+        <form className='login-form'>
+            <h1>Sign In</h1>
             <Input
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
@@ -61,7 +62,6 @@ export default function LoginForm() {
                 disabled={false}
                 placeholder="Email"
                 size="lg"
-                variant="soft"
                 required={true}
             />
             <div className='spacer'></div>
@@ -73,7 +73,6 @@ export default function LoginForm() {
                 disabled={false}
                 placeholder="Password"
                 size="lg"
-                variant="soft"
                 required={true}
             />
             <div className='spacer'></div>
@@ -83,15 +82,14 @@ export default function LoginForm() {
                 size="lg"
                 variant="solid"
                 fullWidth
-            >Login</Button>
+            >Sign In</Button>
             <div className='spacer'></div>
             <Button
                 color="info"
                 onClick={routeRegister}
                 size="lg"
-                variant="solid"
                 fullWidth
-            >Register</Button>
+            >Sign Up</Button>
             <p id='message'>{message}</p>
         </form>
     );
