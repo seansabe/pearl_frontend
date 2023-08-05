@@ -1,0 +1,33 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-form,
+.security-form {
+    margin-top: 100px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.profile-form h1,
+.security-form h1 {
+    /*font-family: 'Big Shoulders Inline Text', cursive;*/
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    color: #814DDE;
+    font-size: 40px;
+    text-align: center;
+}
+
+.profile-form p#message,
+.security-form p#message {
+    display: none;
+    background-color: #4dde82;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px;
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+}

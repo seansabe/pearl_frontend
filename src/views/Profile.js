@@ -1,11 +1,11 @@
 import React from 'react';
-import '../css/login.css';
+import '../css/profile.css';
 import ProfileForm from '../components/ProfileForm';
 
 
 export default function Profile(props) {
     return (
-        <div className='container'>
+        <div className='profile-container'>
             <ProfileForm handleNavClick={props.handleNavClick}></ProfileForm>
         </div>
     );
