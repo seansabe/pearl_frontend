@@ -11,11 +11,13 @@ import { ModalClose } from '@mui/joy';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import CustomRating from "./CustomRating";
-const CreatePost = () => {
 
-  // const for Modal
+
+
+export default function CreatePostForm(props) {
+
+  // const for Modal Box
   const [open, setOpen] = React.useState(false);
-
   const [currentUser, setCurrentUser] = useState("");
   const [createPostRequest, setCreatePostRequest] = useState({
     userId: "",
@@ -27,28 +29,22 @@ const CreatePost = () => {
   const [message, setMessage] = useState("");
   const [selectedService, setSelectedService] = useState("Hair");
 
+
   useEffect(() => {
     setMessage("");
     getCurrentUser();
   }, []);
 
-  let navigate = useNavigate();
-  const turnBack = () => {
-    let path = `/home`;
-    navigate(path);
-  }
-
-  const goServicePage = () => {
-    let path = `/service`;
-    navigate(path);
-  }
+  const routeHome = () => {
+    props.handleNavClick("Listings");
+}
 
   const BasicModal = () => {
     return (
       <React.Fragment>
         <Modal
           open={open}
-          onClose={() => goServicePage()}
+          onClose={routeHome}
           sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
           <Sheet
@@ -186,15 +182,6 @@ const CreatePost = () => {
       <div className="form-container">
         <form className="formCreatePost">
           <div className="form-header">
-            <button className="back-btn"
-              color="info"
-              onClick={turnBack}
-              size="md"
-              variant="solid"
-              fullWidth
-            >
-              Back
-            </button>
             <h1>Create a Service</h1>
           </div>
           <label htmlFor="serviceName" className="form-label">
@@ -306,6 +293,4 @@ const CreatePost = () => {
     </div>
 
   );
-};
-
-export default CreatePost;
+}
