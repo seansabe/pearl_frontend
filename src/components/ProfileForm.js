@@ -2,7 +2,7 @@ import { Input, Button } from '@mui/joy';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { api } from '../utils/api';
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 
 export default function ProfileForm(props) {
@@ -37,7 +37,7 @@ export default function ProfileForm(props) {
         }
     }, []);
 
-    const saveUser = async () =>{
+    const saveUser = async () => {
         try {
             const response = await axios.patch(`${api}/user/${id}`, {
                 firstName: firstName,
@@ -50,8 +50,8 @@ export default function ProfileForm(props) {
                 email: email,
                 password: password
             });
-            console.log(response.data);
-            if (response.data.acknowledged){
+            //console.log(response.data);
+            if (response.data.acknowledged) {
                 localStorage.setItem('user', JSON.stringify({
                     _id: id,
                     firstName: firstName,
@@ -64,75 +64,75 @@ export default function ProfileForm(props) {
                     email: email,
                     password: password
                 }));
-                console.log("User saved successfully");
-            }else{
+                setMessage("Changes has been saved successfully");
+                document.getElementById('message').style.display = 'block';
+            } else {
                 setMessage("Saving is not successful")
             }
         } catch (error) {
             console.error(error);
         }
     }
-    
-    let navigate = useNavigate();
+
+    /*let navigate = useNavigate();
     const routeHome = () => {
         props.handleNavClick("Listings");
-    }
+    }*/
 
     const routeSecSettings = () => {
         props.handleNavClick("SecSettings");
     }
 
-    
-    
+
+
     const handleSaveButton = async () => {
         setMessage('');
-        if(firstName === "" || lastName === "" || address === "" || city === "" || state === "" || zip === "" || phone === "" || email === ""  ){
+        if (firstName === "" || lastName === "" || address === "" || city === "" || state === "" || zip === "" || phone === "" || email === "") {
             setMessage('Fill the form, please.');
-        }else{
+        } else {
             let emailCheck = true;
-            try{
+            try {
                 const response = await axios.get(`${api}/user`);
                 response.data.forEach(user => {
                     console.log(user._id);
-                    if(user.email === email && user._id !== id){
+                    if (user.email === email && user._id !== id) {
                         setMessage("There is user with such email");
                         emailCheck = false;
                     }
                 });
-            }catch(error){
+            } catch (error) {
                 console.error(error);
             }
-            if(emailCheck){
+            if (emailCheck) {
                 saveUser();
-                routeHome();
-            }else{
+                //routeHome();
+            } else {
                 console.log("error");
             }
         }
-    }      
+    }
     return (
-        <form>
-            <h1>Profile</h1>
+        <form className='profile-form'>
+            <h1>View your Profile</h1>
             <Input
                 onChange={(e) => setFirstName(e.target.value)}
                 value={firstName}
                 color="info"
                 placeholder="First Name"
                 size="lg"
-                variant="soft"
                 required
             />
             <div className='spacer'></div>
-            <Input
-                onChange={(e) => setLastName(e.target.value)}
+            < Input
+                onChange={(e) => setLastName(e.target.value)
+                }
                 value={lastName}
                 color="info"
                 disabled={false}
                 placeholder="Last Name"
                 size="lg"
-                variant="soft"
                 required
-            />          
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setAddress(e.target.value)}
@@ -141,10 +141,9 @@ export default function ProfileForm(props) {
                 disabled={false}
                 placeholder="Address"
                 size="lg"
-                variant="soft"
                 required
-            />  
-            <div className='spacer'></div>            
+            />
+            <div className='spacer'></div>
             <Input
                 onChange={(e) => setCity(e.target.value)}
                 value={city}
@@ -152,9 +151,8 @@ export default function ProfileForm(props) {
                 disabled={false}
                 placeholder="City"
                 size="lg"
-                variant="soft"
                 required
-            /> 
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setState(e.target.value)}
@@ -163,9 +161,8 @@ export default function ProfileForm(props) {
                 disabled={false}
                 placeholder="State"
                 size="lg"
-                variant="soft"
                 required
-            /> 
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setZip(e.target.value)}
@@ -174,9 +171,8 @@ export default function ProfileForm(props) {
                 disabled={false}
                 placeholder="ZIP"
                 size="lg"
-                variant="soft"
                 required
-            /> 
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setPhone(e.target.value)}
@@ -185,9 +181,8 @@ export default function ProfileForm(props) {
                 disabled={false}
                 placeholder="Phone"
                 size="lg"
-                variant="soft"
                 required
-            /> 
+            />
             <div className='spacer'></div>
             <Input
                 onChange={(e) => setEmail(e.target.value)}
@@ -196,7 +191,6 @@ export default function ProfileForm(props) {
                 disabled={false}
                 placeholder="Email"
                 size="lg"
-                variant="soft"
                 required
             />
             <div className='spacer'></div>
@@ -206,8 +200,8 @@ export default function ProfileForm(props) {
                 size="lg"
                 variant="solid"
                 fullWidth
-                disabled={firstName === "" || lastName === "" || address === ""  || city === "" || state === "" || zip === "" || phone === "" || email === "" }
-            >Save</Button>
+                disabled={firstName === "" || lastName === "" || address === "" || city === "" || state === "" || zip === "" || phone === "" || email === ""}
+            >Save Changes</Button>
             <div className='spacer'></div>
             <Button
                 color="info"
@@ -215,8 +209,8 @@ export default function ProfileForm(props) {
                 size="lg"
                 variant="solid"
                 fullWidth
-            >Security settings</Button>
+            >Change Password</Button>
             <p id='message'>{message}</p>
-        </form>
+        </form >
     );
 }

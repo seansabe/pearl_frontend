@@ -2,7 +2,7 @@ import { Input, Button } from '@mui/joy';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { api } from '../utils/api';
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 
 export default function SecSettingsForm(props) {
@@ -43,8 +43,7 @@ export default function SecSettingsForm(props) {
         props.handleNavClick("Profile");
     }
 
-
-    const saveUser = async () =>{
+    const saveUser = async () => {
         try {
             const response = await axios.patch(`${api}/user/${id}`, {
                 firstName: firstName,
@@ -58,18 +57,19 @@ export default function SecSettingsForm(props) {
                 password: newPassword
             });
             console.log(response.data);
-            if (response.data){
+            if (response.data) {
                 localStorage.setItem('user', JSON.stringify({
-                                                _id: id,
-                                                firstName: firstName,
-                                                lastName: lastName,
-                                                address: address,
-                                                city: city,
-                                                state: state,
-                                                zip: zip,
-                                                phone: phone,
-                                                email: email,
-                                                password: newPassword}));
+                    _id: id,
+                    firstName: firstName,
+                    lastName: lastName,
+                    address: address,
+                    city: city,
+                    state: state,
+                    zip: zip,
+                    phone: phone,
+                    email: email,
+                    password: newPassword
+                }));
                 console.log("User saved successfully");
                 routeProfile();
             }
@@ -78,34 +78,33 @@ export default function SecSettingsForm(props) {
         }
     }
     const handleSaveButton = async () => {
-        
-        if(oldPassword === "" || newPassword === "" || newPasswordRepeat === ""){
+
+        if (oldPassword === "" || newPassword === "" || newPasswordRepeat === "") {
             setMessage('Fill the form, please.');
-        }else{
-            if(oldPassword === password){
-                if(newPassword===newPasswordRepeat){
+        } else {
+            if (oldPassword === password) {
+                if (newPassword === newPasswordRepeat) {
                     setMessage("");
                     saveUser();
-                }else{
+                } else {
                     setMessage("Incorrect repeat password");
                 }
-            }else{
+            } else {
                 setMessage("Incorrect old password");
             }
-        };      
+        };
     };
     return (
-        <form>
+        <form className='security-form'>
             <h1>Security Settings</h1>
             <Input
                 onChange={(e) => setOldPassword(e.target.value)}
                 value={oldPassword}
-                type= 'password'
+                type='password'
                 color="info"
                 disabled={false}
                 placeholder="Old password"
                 size="lg"
-                variant="soft"
                 required
             />
             <div className='spacer'></div>
@@ -117,7 +116,6 @@ export default function SecSettingsForm(props) {
                 disabled={false}
                 placeholder="New password"
                 size="lg"
-                variant="soft"
                 required
             />
             <div className='spacer'></div>
@@ -127,9 +125,8 @@ export default function SecSettingsForm(props) {
                 type='password'
                 color="info"
                 disabled={false}
-                placeholder="Repeat new password"
+                placeholder="Confirm password"
                 size="lg"
-                variant="soft"
                 required
             />
             <div className='spacer'></div>
@@ -142,6 +139,13 @@ export default function SecSettingsForm(props) {
                 disabled={oldPassword === "" || newPassword === "" || newPasswordRepeat === ""}
             >Save</Button>
             <div className='spacer'></div>
+            <Button
+                color="info"
+                onClick={routeProfile}
+                size="lg"
+                variant="solid"
+                fullWidth
+            >Cancel</Button>
             <p id='message'>{message}</p>
         </form>
     );

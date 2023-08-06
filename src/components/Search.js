@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Input from '@mui/joy/Input';
+import Button from '@mui/joy/Button';
 
 const Search = () => {
   const [searchWord, setSearchWord] = useState("");
@@ -19,15 +21,27 @@ const Search = () => {
   };
 
   return (
-    <div className="">
+    <div className="search-container">
       <form onSubmit={handleSearch}>
-        <input
+        <Input
+          sx={{ '--Input-decoratorChildHeight': '45px' }}
+          placeholder="Search services"
           type="text"
-          placeholder="Search..."
+          color="info"
+          required
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
+          endDecorator={
+            <Button
+              variant="solid"
+              color="info"
+              type="submit"
+              sx={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+            >
+              Go!
+            </Button>
+          }
         />
-        <button type="submit">Search</button>
       </form>
       <div>
         {services.map((service) => (

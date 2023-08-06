@@ -1,0 +1,80 @@
+.listing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    row-gap: 20px;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px;
+}
+
+.search-container form {
+    width: 30%;
+}
+
+.card-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    row-gap: 20px;
+}
+
+.card {
+    width: 350px;
+    margin: 10px;
+    background-color: #F1F1F1;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 16px 16px;
+}
+
+.card .card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.card .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card .card-service-type,
+.card div.tag {
+    width: fit-content;
+    font-size: 14px;
+    line-height: 14px;
+    padding: 5px 10px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #814DDE;
+    border-radius: 16px;
+}
+
+.card .card-service-price {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    color: #814dde;
+    font-size: 40px;
+}

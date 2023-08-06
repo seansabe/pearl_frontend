@@ -11,8 +11,7 @@ import { ModalClose } from '@mui/joy';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import CustomRating from "./CustomRating";
-
-
+import FormLabel from '@mui/joy/FormLabel';
 
 export default function CreatePostForm(props) {
 
@@ -97,14 +96,14 @@ export default function CreatePostForm(props) {
       setMessage("Please fill out all required fields.");
     } else {
       createPostRequest.userId = currentUser._id;
-      console.log("Request" + createPostRequest);
+      //console.log("Request" + createPostRequest);
       // Make the API call using Axios
       axios
         .post(`${api}/service`, createPostRequest)
         .then((response) => {
-          console.log(response);
-          let service = response.data;
-          console.log(service);
+          //console.log(response);
+          //let service = response.data;
+          //console.log(service);
           setMessage("Service created successfully");
           setOpen(true)
           setCreatePostRequest({
@@ -117,7 +116,7 @@ export default function CreatePostForm(props) {
         })
         .catch((error) => {
           setMessage(error.response.data.message);
-          console.log(error.response.data);
+          //console.log(error.response.data);
         });
     }
   };
@@ -125,13 +124,13 @@ export default function CreatePostForm(props) {
   const getCurrentUser = async () => {
     try {
       // get user by email
-      console.log("get current user");
+      //console.log("get current user");
       const email = localStorage.getItem('currentUser');
       const response = await axios.get(`${api}/user/email/${email}`);
       const user = response.data;
-      console.log(user);
+      //console.log(user);
       setCurrentUser(user);
-      console.log("Current user's email is : " + email);
+      //console.log("Current user's email is : " + email);
     } catch (error) {
       console.error('Error fetching user:', error);
     }
@@ -149,23 +148,32 @@ export default function CreatePostForm(props) {
   // Preview section
   const renderPreview = () => {
     return (
-      <div className="form-preview">
-        <h2>Preview</h2>
+      <div className="preview-container">
+        <h1>Preview</h1>
         <div className="card">
           <img
             src={process.env.PUBLIC_URL + `/images/${selectedService.replace(/\s/g, '').toLowerCase()}.png`}
             className="card-img-top"
-            style={{ width: "440px", height: "315px" }}
             alt="service type"
           />
           <div className="card-body">
-            <div className="card-rating">{CustomRating()} {BasicModal()}</div>
-            <div className="card-service-type">{createPostRequest.kindOfService}</div>
-            <h2 className="card-title" style={{ marginTop: "0px" }}>
-              {createPostRequest.name || "Service Name "} <br></br><span className="card-user"> by {currentUser.firstName}</span>
-            </h2>
+            <div className="row">
+              <div className="card-rating">{CustomRating()} {BasicModal()}</div>
+              <div className="card-service-type">{createPostRequest.kindOfService}</div>
+            </div>
+            <h2 className="card-title">{createPostRequest.name || "Service Name "}</h2>
+
+            <div className="tag">Professional</div>
+            <div className="card-user">{currentUser.firstName}</div>
+            <div className="tag">Location</div>
             <div className="card-address">{currentUser.city}</div>
-            <div className="card-service-description"> {createPostRequest.name || "Service Name "} Services Starting From ${createPostRequest.price} <br></br> {createPostRequest.description} </div>
+            {/*<div className="card-service-name"> {"Service: " + createPostRequest.name || "Service Name "}</div>*/}
+            <div className="tag">Price</div>
+            <div className="card-service-price">${createPostRequest.price || "Service Price"}</div>
+            <div className="tag">Description</div>
+            <div className="card-service-description">{createPostRequest.description || "Service Description"}</div>
+
+            <div className='spacer'></div>
             <Button
               color="info"
               size="lg"
@@ -178,15 +186,19 @@ export default function CreatePostForm(props) {
   };
 
   return (
-    <div className="form-wrapper">
+    <div className="create-post-wrapper">
       <div className="form-container">
-        <form className="formCreatePost">
-          <div className="form-header">
+        <form>
+          <div className="header">
             <h1>Create a Service</h1>
           </div>
-          <label htmlFor="serviceName" className="form-label">
+          <FormLabel
+            sx={(theme) => ({
+              '--FormLabel-color': theme.vars.palette.info.plainColor,
+            })}
+          >
             Service Name
-          </label>
+          </FormLabel>
           <Input
             onChange={(e) =>
               setCreatePostRequest({
@@ -199,97 +211,99 @@ export default function CreatePostForm(props) {
             disabled={false}
             placeholder="Ex. Haircut"
             size="lg"
-            variant="soft"
             required={true}
             id="jobTitle"
           />
-          <div>
-            <br></br>
-            <label htmlFor="jobType" className="form-label">
-              Kind Of Service
-            </label>
-            <Select defaultValue="Hair"
-              className="form-select"
-              color="info"
-              disabled={false}
-              size="lg"
-              variant="soft"
-              onChange={(e) => handleServiceChange(e.target.textContent)}
-            >
-              <Option value="Hair">Hair</Option>
-              <Option value="Lash">Lash</Option>
-              <Option value="Make up">Make up</Option>
-            </Select>
-          </div>
-          <div>
-            <label htmlFor="price" className="form-label">
-              Price
-            </label>
-            <Input
-              type="number"
-              startDecorator="$"
-              defaultValue={createPostRequest.price}
-              slotProps={{
-                input: {
-                  min: 10,
-                  max: 1000,
-                  step: 5,
-                },
-              }}
-              className="form-control"
-              id="price"
-              value={createPostRequest.price}
-              onChange={(e) =>
-                setCreatePostRequest({
-                  ...createPostRequest,
-                  price: e.target.value,
-                })
-              }
-              color="info"
-              disabled={false}
-              size="lg"
-              variant="soft"
-              required={true}
-            />
-          </div>
-          <div>
-            <br></br>
-            <label htmlFor="description" className="form-label">
-              Description
-            </label>
-            <br></br>
-            <Textarea
-              className="form-control"
-              id="description"
-              value={createPostRequest.description}
-              color="info"
-              minRows={2}
-              placeholder=""
-              size="lg"
-              variant="soft"
-              onChange={(e) =>
-                setCreatePostRequest({
-                  ...createPostRequest,
-                  description: e.target.value,
-                })
-              }
-            />
-          </div>
-          <p id='form-error-message'>
-            {message}
-          </p>
-          <button
+          <div className='spacer'></div>
+          <FormLabel
+            sx={(theme) => ({
+              '--FormLabel-color': theme.vars.palette.info.plainColor,
+            })}
+          >
+            Type of Service
+          </FormLabel>
+          <Select defaultValue="Hair"
+            className="form-select"
+            color="info"
+            disabled={false}
+            size="lg"
+            onChange={(e) => handleServiceChange(e.target.textContent)}
+          >
+            <Option value="Hair">Hair</Option>
+            <Option value="Lash">Lash</Option>
+            <Option value="Make up">Make up</Option>
+          </Select>
+          <div className='spacer'></div>
+          <FormLabel
+            sx={(theme) => ({
+              '--FormLabel-color': theme.vars.palette.info.plainColor,
+            })}
+          >
+            Price
+          </FormLabel>
+          <Input
+            type="number"
+            startDecorator="$"
+            defaultValue={createPostRequest.price}
+            slotProps={{
+              input: {
+                min: 10,
+                max: 1000,
+                step: 5,
+              },
+            }}
+            className="form-control"
+            id="price"
+            value={createPostRequest.price}
+            onChange={(e) =>
+              setCreatePostRequest({
+                ...createPostRequest,
+                price: e.target.value,
+              })
+            }
+            color="info"
+            disabled={false}
+            size="lg"
+            required={true}
+          />
+          <div className='spacer'></div>
+          <FormLabel
+            sx={(theme) => ({
+              '--FormLabel-color': theme.vars.palette.info.plainColor,
+            })}
+          >
+            Description
+          </FormLabel>
+          <Textarea
+            className="form-control"
+            id="description"
+            value={createPostRequest.description}
+            color="info"
+            minRows={2}
+            placeholder=""
+            size="lg"
+            onChange={(e) =>
+              setCreatePostRequest({
+                ...createPostRequest,
+                description: e.target.value,
+              })
+            }
+          />
+          <div className='spacer'></div>
+          <Button
             type="submit"
+            size="lg"
             className="form-submit-btn"
             id="btnSubmit"
             onClick={createPost}
+            color="info"
+            variant="solid"
           >Create
-          </button>
+          </Button>
+          <p id='form-error-message'>{message}</p>
         </form>
       </div>
-      <div className="preview-container">
-        {renderPreview()}
-      </div>
+      {renderPreview()}
     </div>
 
   );

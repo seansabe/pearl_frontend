@@ -9,7 +9,7 @@ const ListingComponent = () => {
   const [listings, setListings] = useState([]);
 
   const getUserInfo = async (userId) => {
-    console.log("get user full name");
+    //console.log("get user full name");
     const response = await axios.get(`${api}/user/${userId}`);
     const user = response.data;
     console.log(user);
@@ -39,6 +39,7 @@ const ListingComponent = () => {
     fetchListings();
   }, []);
 
+
   // Inside the ListingComponent
   const navigate = useNavigate();
 
@@ -50,19 +51,11 @@ const ListingComponent = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap" }}>
+    <div className="card-grid">
       {listings.map((listing) => (
         <div
           key={listing._id}
-          className="card"
-          style={{
-            padding: "20px",
-            borderRadius: "10px",
-            backgroundColor: "#ffffff",
-            margin: "5px",
-            border: "1px solid #dddddd",
-          }}
-        >
+          className="card">
           <img
             src={
               process.env.PUBLIC_URL +
@@ -71,28 +64,21 @@ const ListingComponent = () => {
                 .toLowerCase()}.png`
             }
             className="card-img-top"
-            style={{ width: "318px", height: "228px" }}
+            alt=""
           />
           <div className="card-body">
             <div className="card-rating">
-            <CustomRating/>{/* make dynamic */}
+              <CustomRating />{/* make dynamic */}
+              <div className="card-service-type">{listing.kindOfService}</div>
             </div>
-            <div className="card-service-type">{listing.kindOfService}</div>
-            <h2 className="card-title" style={{ marginTop: "0px" }}>
-              {listing.name} <br></br>
+            <h2 className="card-title">
+              {listing.name}
               <span className="card-user"> by {listing.user.firstName}</span>
             </h2>
             <div className="card-address">{listing.user.city}</div>
             <div
-              className="card-service-description"
-              style={{
-                marginBottom: "10px",
-                width: "318px",
-                height: "50px",
-                overflowY: "auto",
-              }}
-            >
-              {listing.name} Services Starting From ${listing.price} <br></br>{" "}
+              className="card-service-description">
+              {listing.name} Services Starting From ${listing.price}{" "}
               {listing.description}{" "}
             </div>
             <Button
