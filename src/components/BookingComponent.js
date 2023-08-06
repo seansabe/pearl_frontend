@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { Button } from "@mui/joy";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -8,6 +8,26 @@ const BookingComponent = () => {
   const { id } = useParams();
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setCurrentUser(user);
+      } else {
+        console.log("Current user not found.");
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  };
+
 
   const handleDateChange = (event) => {
     setDate(event.target.value);
@@ -23,10 +43,8 @@ const BookingComponent = () => {
         serviceId: id,
         date,
         time,
-        // Add any other data you want to send to the server.
-        // If the booking requires a user, you would also send the userId here.
+        userId : currentUser._id,
       });
-      console.log(response.data);
     } catch (error) {
       console.error("Error creating booking:", error);
     }
