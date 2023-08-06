@@ -9,10 +9,8 @@ const ListingComponent = () => {
   const [listings, setListings] = useState([]);
 
   const getUserInfo = async (userId) => {
-    //console.log("get user full name");
     const response = await axios.get(`${api}/user/${userId}`);
     const user = response.data;
-    console.log(user);
     //let fullName = `${user.firstName} ${user.lastName}`;
     return user;
   };
@@ -44,9 +42,6 @@ const ListingComponent = () => {
   const navigate = useNavigate();
 
   const handleBook = (listingId) => {
-    // Handle booking logic here for the given listingId
-    // For example, you can redirect to a booking page or show a modal to confirm the booking.
-    console.log(`Booking listing with id: ${listingId}`);
     navigate(`/booking/${listingId}`);
   };
 

@@ -11,7 +11,6 @@ const BookingComponent = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    console.log("Fetching the current user");
     fetchCurrentUser();
   }, []);
 
@@ -21,7 +20,6 @@ const BookingComponent = () => {
       if (storedUser) {
         const user = JSON.parse(storedUser);
         setCurrentUser(user);
-        console.log("Current user found. " + user._id);
       } else {
         console.log("Current user not found.");
       }
@@ -45,10 +43,8 @@ const BookingComponent = () => {
         serviceId: id,
         date,
         time,
-        // Add any other data you want to send to the server.
         userId : currentUser._id,
       });
-      console.log(response.data);
     } catch (error) {
       console.error("Error creating booking:", error);
     }
