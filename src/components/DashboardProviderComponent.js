@@ -13,6 +13,7 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from "@mui/material/DialogTitle";
 import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
@@ -30,6 +31,7 @@ const DashboardProviderComponent = () => {
     const [index, setIndex] = useState(0); // index for the tabs
     const [editOpen, setEditOpen] = useState(false); // open/close the edit dialog
     const [selectedAppointment, setSelectedAppointment] = useState(null); // the appointment to be edited
+    const [cancelOpen, setCancelOpen] = useState(false); // open/close the cancel dialog
 
     const handleClickOpen = (appointment) => {
         setEditOpen(true);
@@ -38,6 +40,16 @@ const DashboardProviderComponent = () => {
     const handleClose = () => {
         setEditOpen(false);
     };
+
+    const handleCancelClickOpen = (appointment) => {
+        setCancelOpen(true);
+        setSelectedAppointment(appointment);
+    };
+
+    const handleCancelClose = () => {
+        setCancelOpen(false);
+    };
+
 
     // first fetch the current user
     useEffect(() => {
@@ -209,7 +221,7 @@ const DashboardProviderComponent = () => {
                                             <Button size="sm" variant="soft" color="neutral" onClick={() => handleClickOpen(appointment)}>
                                                 Edit
                                             </Button>
-                                            <Button size="sm" variant="soft" color="danger">
+                                            <Button size="sm" variant="soft" color="danger" onClick={() => handleCancelClickOpen(appointment)}>
                                                 Cancel
                                             </Button>
                                         </Box>
@@ -466,9 +478,49 @@ const DashboardProviderComponent = () => {
         );
     };
 
+    const DialogCancelAppointment = () => {
+        const handleCancel = () => {
+            const cancelAppointment = async () => {
+                try {
+                    const response = await axios.delete(`${api}/booking/${selectedAppointment._id}`);
+                } catch (error) {
+                    console.error("Error canceling appointment:", error);
+                }
+            };
+            cancelAppointment();
+            handleCancelClose();
+            fetchUpcomingAppointmentsForCurrentProvider();
+            fetchPastAppointmentsForCurrentProvider();
+        };
+        return (
+            <Dialog open={cancelOpen}
+                    onClose={handleCancelClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to cancel this appointment?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You will not be able to undo this action.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelClose}>Cancel</Button>
+          <Button onClick={handleCancel} autoFocus>Yes</Button>
+        </DialogActions>
+      </Dialog>
+        );
+
+
+    };  
+
+
     return (
         <div>
             {DialogEditAppointment()}
+            {DialogCancelAppointment()}
             <Box sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
                 <Tabs
                     aria-label="Outlined tabs"
