@@ -14,14 +14,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import MenuItem from "@mui/material/MenuItem";
 import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers';
 import { TimeField } from '@mui/x-date-pickers';
-import { Select } from '@mui/material';
 
 
 const DashboardProviderComponent = () => {
@@ -29,27 +27,26 @@ const DashboardProviderComponent = () => {
     const [pastAppointments, setPastAppointments] = useState([]);
     const [services, setServices] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
-    const [index, setIndex] = useState(0);
-    const [editOpen, setEditOpen] = useState(false);
-    const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const [index, setIndex] = useState(0); // index for the tabs
+    const [editOpen, setEditOpen] = useState(false); // open/close the edit dialog
+    const [selectedAppointment, setSelectedAppointment] = useState(null); // the appointment to be edited
+
     const handleClickOpen = (appointment) => {
         setEditOpen(true);
         setSelectedAppointment(appointment);
-
     };
-
     const handleClose = () => {
         setEditOpen(false);
     };
 
+    // first fetch the current user
     useEffect(() => {
-        console.log("Fetching the current user");
         fetchCurrentUser();
     }, []);
 
+    // then fetch the appointments and services for the current user
     useEffect(() => {
         if (currentUser !== null) {
-            console.log("Fetching bookings for current provider");
             fetchUpcomingAppointmentsForCurrentProvider();
             fetchPastAppointmentsForCurrentProvider();
             fetchServicesForCurrentUser();
@@ -62,7 +59,6 @@ const DashboardProviderComponent = () => {
             if (storedUser) {
                 const user = JSON.parse(storedUser);
                 setCurrentUser(user);
-                console.log("Current user found. " + user._id);
             } else {
                 console.log("Current user not found.");
             }
@@ -120,15 +116,13 @@ const DashboardProviderComponent = () => {
 
                 return appointmentDetail;
             });
-
             const appointmentDetails = await Promise.all(appointmentDetailsPromises);
-
             setUpcomingAppointments(appointmentDetails);
+
         } catch (error) {
             console.error("Error fetching upcoming bookings:", error);
         }
     };
-
 
     const fetchPastAppointmentsForCurrentProvider = async () => {
         try {
@@ -169,7 +163,6 @@ const DashboardProviderComponent = () => {
             });
 
             const appointmentDetails = await Promise.all(appointmentDetailsPromises);
-
             setPastAppointments(appointmentDetails);
         } catch (error) {
             console.error("Error fetching past bookings:", error);
@@ -282,6 +275,7 @@ const DashboardProviderComponent = () => {
         );
     };
 
+    // TODO
     const DialogEditService = () => {
         const [type, setType] = useState("");
         const handleChangeType = (event) => {
@@ -292,7 +286,7 @@ const DashboardProviderComponent = () => {
             <Dialog open={editOpen} onClose={handleClose}>
                 <DialogTitle>Edit a Service</DialogTitle>
                 <DialogContent>
-                <TextField
+                    <TextField
                         margin="dense"
                         id="serviceType"
                         label="Service Type"
@@ -351,11 +345,10 @@ const DashboardProviderComponent = () => {
     };
 
     const DialogEditAppointment = () => {
-        const [type, setType] = useState("");
-        const [selectedDate, setSelectedDate] = useState(new Date());
-        const [selectedTime, setSelectedTime] = useState(new Date());
+        const [selectedDate, setSelectedDate] = useState(null);
+        const [selectedTime, setSelectedTime] = useState(null);
 
-        const handleDataChange = (newDate) => {
+        const handleDateChange = (newDate) => {
             setSelectedDate(newDate);
         };
 
@@ -364,46 +357,62 @@ const DashboardProviderComponent = () => {
         };
 
         const handleUpdate = () => {
-            console.log("Updating appointment");
-            console.log(selectedAppointment);
-            console.log(selectedDate);
-            console.log(selectedTime);
-
-            // convert selectedDate to to the JavaScript Date object
-            // type of selectedDate
-            console.log(typeof selectedDate);
-
-            // convert selectedTime to to the JavaScript Date object
-            console.log(typeof selectedTime);
-            
-        
-
-            // TODO :it is not working, check the date type and time type
-            const updateAppointment = async () => {
-                try {
-                    console.log("selectedAppointment._id", selectedAppointment._id);
-                    const response = await axios.put(`${api}/booking/${selectedAppointment._id}`, {
-                        selectedDate,
-                        selectedTime,
-                    });
-                    console.log("Updated appointment");
-                    console.log(response.data);
-                } catch (error) {
-                    console.error("Error updating appointment:", error);
-                }
-            };
-        
-            
-            updateAppointment();
-            handleClose();
+            // If the user did not change the date, then selectedDate will be null. 
+            // Therefore update the appointment with only the new time.
+            // Note: I've tried to send the date as selectedAppointment.date but it didn't work.
+            // So, this is the only solution I found after a lot of trial and error.
+            if (selectedDate === null && selectedTime !== null) {
+                const newTime = selectedTime.hour() + ":" + selectedTime.minute();
+                const updateAppointment = async () => {
+                    try {
+                        const response = await axios.patch(`${api}/booking/${selectedAppointment._id}`, {
+                            time: newTime,
+                        });
+                    } catch (error) {
+                        console.error("Error updating appointment:", error);
+                    }
+                };
+                updateAppointment();
+                handleClose();
+            } else if (selectedDate !== null && selectedTime === null) {
+                const newDate = selectedDate;
+                const updateAppointment = async () => {
+                    try {
+                        const response = await axios.patch(`${api}/booking/${selectedAppointment._id}`, {
+                            date: newDate,
+                        });
+                    } catch (error) {
+                        console.error("Error updating appointment:", error);
+                    }
+                };
+                updateAppointment();
+                handleClose();
+            } else if (selectedDate !== null && selectedTime !== null) {
+                const newDate = selectedDate;
+                const newTime = selectedTime.hour() + ":" + selectedTime.minute();
+                const updateAppointment = async () => {
+                    try {
+                        const response = await axios.patch(`${api}/booking/${selectedAppointment._id}`, {
+                            date: newDate,
+                            time: newTime,
+                        });
+                    } catch (error) {
+                        console.error("Error updating appointment:", error);
+                    }
+                };
+                updateAppointment();
+                handleClose();
+            } else {
+                console.log("No changes made to the appointment.");
+                handleClose();
+            }
         };
-
 
         return (
             <Dialog open={editOpen} onClose={handleClose}>
                 <DialogTitle>Edit an Appointment</DialogTitle>
                 <DialogContent>
-                <TextField
+                    <TextField
                         margin="dense"
                         id="serviceType"
                         label="Service Type"
@@ -436,15 +445,15 @@ const DashboardProviderComponent = () => {
                         <DemoContainer components={['DateField', 'TimeField']}>
                             <DemoItem label="Appointment Date" id="appointmentDate" >
                                 {console.log(selectedAppointment)}
-                                <DateField 
+                                <DateField
                                     defaultValue={selectedAppointment ? dayjs(selectedAppointment.date) || null : null}
-                                    onChange={(newDate) => handleDataChange(newDate)}
+                                    onChange={(newDate) => handleDateChange(newDate)}
                                 />
                             </DemoItem>
                             <DemoItem label="Appointment Time" id="appointmentTime">
-                                <TimeField 
+                                <TimeField
                                     defaultValue={selectedAppointment ? dayjs('2000-01-01T' + selectedAppointment.time) || null : null}
-                                    onChange={(newTime) => handleTimeChange((dayjs('2000-01-01T' + newTime)))} />
+                                    onChange={(newTime) => handleTimeChange((dayjs(newTime)))} />
                             </DemoItem>
                         </DemoContainer>
                     </LocalizationProvider>
@@ -456,8 +465,6 @@ const DashboardProviderComponent = () => {
             </Dialog>
         );
     };
-
-
 
     return (
         <div>
@@ -500,7 +507,6 @@ const DashboardProviderComponent = () => {
                 </Tabs>
             </Box>
         </div>
-
     );
 };
 
