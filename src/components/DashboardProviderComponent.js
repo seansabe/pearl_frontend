@@ -320,7 +320,6 @@ const DashboardProviderComponent = () => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DateField', 'TimeField']}>
                             <DemoItem label="Appointment Date" id="appointmentDate" >
-                                {console.log(selectedAppointment)}
                                 <DateField defaultValue={selectedAppointment ? dayjs(selectedAppointment.date) || null : null} />
                             </DemoItem>
                             <DemoItem label="Appointment Time" id="appointmentTime">
@@ -406,6 +405,8 @@ const DashboardProviderComponent = () => {
                 console.log("No changes made to the appointment.");
                 handleClose();
             }
+            fetchUpcomingAppointmentsForCurrentProvider();
+            fetchPastAppointmentsForCurrentProvider();
         };
 
         return (
@@ -444,7 +445,6 @@ const DashboardProviderComponent = () => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DateField', 'TimeField']}>
                             <DemoItem label="Appointment Date" id="appointmentDate" >
-                                {console.log(selectedAppointment)}
                                 <DateField
                                     defaultValue={selectedAppointment ? dayjs(selectedAppointment.date) || null : null}
                                     onChange={(newDate) => handleDateChange(newDate)}
