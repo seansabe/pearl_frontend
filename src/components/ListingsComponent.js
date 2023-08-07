@@ -52,31 +52,29 @@ const ListingComponent = () => {
           key={listing._id}
           className="card">
           <img
-            src={
-              process.env.PUBLIC_URL +
-              `/images/${listing.kindOfService
-                .replace(/\s/g, "")
-                .toLowerCase()}.png`
-            }
+            src={process.env.PUBLIC_URL + `/images/${listing.kindOfService.replace(/\s/g, "").toLowerCase()}.png`}
             className="card-img-top"
             alt=""
           />
           <div className="card-body">
-            <div className="card-rating">
-              <CustomRating />{/* make dynamic */}
+            <div className="row">
+              <div className="card-rating"><CustomRating />{/* make dynamic */}</div>
               <div className="card-service-type">{listing.kindOfService}</div>
             </div>
-            <h2 className="card-title">
-              {listing.name}
-              <span className="card-user"> by {listing.user.firstName}</span>
-            </h2>
+            <h2 className="card-title"> {listing.name}</h2>
+
+            <div className="tag">Professional</div>
+            <div className="card-user"> by {listing.user.firstName}</div>
+            <div className="tag">Location</div>
             <div className="card-address">{listing.user.city}</div>
-            <div
-              className="card-service-description">
-              {listing.name} Services Starting From ${listing.price}{" "}
-              {listing.description}{" "}
-            </div>
+            <div className="tag">Price</div>
+            <div className="card-service-price">${listing.price}</div>
+            <div className="tag">Description</div>
+            <div className="card-service-description">{listing.description}{" "}</div>
+
+            <div className='spacer'></div>
             <Button
+              className="card-button"
               color="info"
               onClick={() => handleBook(listing._id)}
               size="lg"

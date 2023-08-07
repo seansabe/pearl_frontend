@@ -1,58 +1,99 @@
+.main-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.content-container {
+    width: 85%;
+    height: 100%;
+    padding: 20px;
+    overflow-y: auto;
+}
+
 .nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
-    flex-direction: row;
-    background-color: #F1F1F1;
-    padding: 15px;
+    flex-direction: column;
+    background-color: #814DDE;
+    padding: 40px;
+    width: 15%;
+    height: 100%;
+}
+
+.nav .links {
     width: 100%;
 }
 
-.nav a {
+.nav .item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    margin: 20px 0px;
+    column-gap: 20px;
+}
+
+.nav span {
+    display: block;
     font-family: 'Raleway', sans-serif;
-    font-weight: 200;
-    text-decoration: none;
-    color: #606060;
-    font-size: 15px;
-    margin: 0 10px;
-    padding: 10px;
-    border: 1px solid #F1F1F1;
-    border-radius: 5px;
-}
-
-.nav a:hover {
-    color: #000;
-    cursor: pointer;
-    border: 1px solid #606060;
-    border-radius: 5px;
-}
-
-.nav .active {
-    color: #000;
-    cursor: pointer;
-    border: 1px solid #606060;
-    border-radius: 5px;
-}
-
-.nav .logout {
-    padding: 10px;
-    background-color: #814DDE;
-    border: 1px solid #814DDE;
-    color: #fff;
     font-weight: 400;
-    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
 }
 
-.nav .logout:hover {
+.nav i {
+    width: 20px;
     color: #fff;
-    background-color: #5F35AE;
-    border: 1px solid #5F35AE;
+}
+
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+    color: #fff;
+}
+
+.hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.nav .active::after {
+    cursor: pointer;
+    transform: scaleX(1);
+    transform-origin: bottom left;
 }
 
 .nav h2 {
     font-family: 'Big Shoulders Inline Text', cursive;
-    color: #814DDE;
-    font-size: 40px;
-    line-height: 40px;
-    margin: 0;
+    color: #fff;
+    font-size: 60px;
+    line-height: 60px;
+    margin-bottom: 100px;
+}
+
+.nav .copyright {
+    position: absolute;
+    bottom: 20px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
 }

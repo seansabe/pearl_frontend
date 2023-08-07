@@ -36,7 +36,7 @@ export default function CreatePostForm(props) {
 
   const routeHome = () => {
     props.handleNavClick("Listings");
-}
+  }
 
   const BasicModal = () => {
     return (
@@ -175,6 +175,7 @@ export default function CreatePostForm(props) {
 
             <div className='spacer'></div>
             <Button
+              className="card-button"
               color="info"
               size="lg"
               variant="solid"

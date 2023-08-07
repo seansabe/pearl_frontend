@@ -15,14 +15,16 @@ export default function Home() {
         setSelectedEndpoint(endpoint);
     }
     return (
-        <div>
+        <div className="main-container">
             <Nav onNavClick={handleNavClick}></Nav>
-            {selectedEndpoint === 'Listings' && <Listings />}
-            {selectedEndpoint === 'CreatePost' && <CreatePost handleNavClick={handleNavClick} />}
-            {selectedEndpoint === 'Profile' && <Profile handleNavClick={handleNavClick} />}
-            {selectedEndpoint === 'SecSettings' && <SecSettings handleNavClick={handleNavClick} />}
-            {selectedEndpoint === 'MyOffers' && <DashboardProvider handleNavClick={handleNavClick} />}
-            {selectedEndpoint === 'Login' && <Login />}
+            <div className="content-container">
+                {selectedEndpoint === 'Listings' && <Listings />}
+                {selectedEndpoint === 'CreatePost' && <CreatePost handleNavClick={handleNavClick} />}
+                {selectedEndpoint === 'Profile' && <Profile handleNavClick={handleNavClick} />}
+                {selectedEndpoint === 'SecSettings' && <SecSettings handleNavClick={handleNavClick} />}
+                {selectedEndpoint === 'MyServices' && <DashboardProvider handleNavClick={handleNavClick} />}
+                {selectedEndpoint === 'Login' && <Login />}
+            </div>
         </div>
     );
 }
