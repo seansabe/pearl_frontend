@@ -37,7 +37,6 @@ const ListingComponent = (props) => {
     fetchListings();
   }, []);
 
-
   // Inside the ListingComponent
   /*
   const navigate = useNavigate();
@@ -46,7 +45,7 @@ const ListingComponent = (props) => {
     navigate(`/booking/${listingId}`);
   };*/
 
-  const routeBooking = (listingId) => {
+  const routeBooking = () => {
     props.handleNavClick("Booking");
   }
 
@@ -81,7 +80,7 @@ const ListingComponent = (props) => {
             <Button
               className="card-button"
               color="info"
-              onClick={() => routeBooking(listing._id)}
+              onClick={() => routeBooking()}
               size="lg"
               variant="solid"
               fullWidth

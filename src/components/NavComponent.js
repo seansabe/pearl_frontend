@@ -43,27 +43,27 @@ export default function Nav({ onNavClick }) {
             </div>
             <div className="links">
                 <div className="item">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <i className="fa-solid fa-magnifying-glass"></i>
                     <span className="hover-underline-animation active" id="Listings" onClick={() => handleNavClick("Listings")}>Book a Service</span>
                 </div>
                 <div className="item">
-                    <i class="fa-solid fa-plus"></i>
+                    <i className="fa-solid fa-plus"></i>
                     <span className="hover-underline-animation" id="CreatePost" onClick={() => handleNavClick("CreatePost")}>Offer a Service</span>
                 </div>
                 <div className="item">
-                    <i class="fa-solid fa-book"></i>
+                    <i className="fa-solid fa-book"></i>
                     <span className="hover-underline-animation" id="MyBookings" onClick={() => handleNavClick("MyBookings")}>My Bookings</span>
                 </div>
                 <div className="item">
-                    <i class="fa-solid fa-list-ul"></i>
+                    <i className="fa-solid fa-list-ul"></i>
                     <span className="hover-underline-animation" id="MyServices" onClick={() => handleNavClick("MyServices")}>My Services</span>
                 </div>
                 <div className="item">
-                    <i class="fa-regular fa-user"></i>
+                    <i className="fa-regular fa-user"></i>
                     <span className="hover-underline-animation" id="Profile" onClick={() => handleNavClick("Profile")}>My Profile</span>
                 </div>
                 <div className="item">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
                     <span className="hover-underline-animation logout" onClick={handleLogout}>Log Out</span>
                 </div>
             </div>
