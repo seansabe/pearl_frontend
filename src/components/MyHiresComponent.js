@@ -7,6 +7,7 @@ import CustomRating from "./CustomRating";
 
 const MyHiresComponent = () => {
   const [hires, setHires] = useState([]);
+  const [id, setId] = useState('');
 
   const getServiceInfo = async (serviceId) => {
     const response = await axios.get(`${api}/service/${serviceId}`);
@@ -20,33 +21,58 @@ const MyHiresComponent = () => {
   };
 
 
-  const fetchHires = async () => {
-    try {
-      const response = await axios.get(`${api}/booking`);
-      const hiresData = response.data;
-      // Fetch the service information for each hire
-      const updatedHires = await Promise.all(
-          hiresData.map(async (hire) => {
-              let service = await getServiceInfo(hire.serviceId);
-              let user = await getUserInfo(service.userId);
-              return { ...hire, service, user };
-          })
-      );
-      setHires(updatedHires);
-    } catch (error) {
-      console.error("Error fetching Hires:", error);
-    }
-}
+  
 
   useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            setId(user._id);
+        }
+        const fetchHires = async () => {
+    
+            try {
+              const response = await axios.get(`${api}/booking/user/${id}`);
+              const hiresData = response.data;
+              // Fetch the service information for each hire
+              const updatedHires = await Promise.all(
+                  hiresData.map(async (hire) => {
+                      let service = await getServiceInfo(hire.serviceId);
+                      let user = await getUserInfo(service.userId);
+                      return { ...hire, service, user };
+                  })
+              );
+              setHires(updatedHires);
+            } catch (error) {
+              console.error("Error fetching Hires:", error);
+            }
+        }
     fetchHires();
-  }, []);
+  }, [id]);
 
   const handleCancelBooking = async (hireId) => {
     try {
         await axios.delete(`${api}/booking/${hireId}`)
     }catch(e){
         console.error("Error deleting Booking",e);
+    }
+    const fetchHires = async () => {
+    
+        try {
+          const response = await axios.get(`${api}/booking/user/${id}`);
+          const hiresData = response.data;
+          // Fetch the service information for each hire
+          const updatedHires = await Promise.all(
+              hiresData.map(async (hire) => {
+                  let service = await getServiceInfo(hire.serviceId);
+                  let user = await getUserInfo(service.userId);
+                  return { ...hire, service, user };
+              })
+          );
+          setHires(updatedHires);
+        } catch (error) {
+          console.error("Error fetching Hires:", error);
+        }
     }
     fetchHires();
   }
