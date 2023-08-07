@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { api } from "../utils/api";
 
-const BookingComponent = () => {
+const BookingComponent = (props) => {
   const { id } = useParams();
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -28,6 +28,9 @@ const BookingComponent = () => {
     }
   };
 
+  const routeListings = () => {
+    props.handleNavClick("Listings");
+  }
 
   const handleDateChange = (event) => {
     setDate(event.target.value);
@@ -43,8 +46,9 @@ const BookingComponent = () => {
         serviceId: id,
         date,
         time,
-        userId : currentUser._id,
+        userId: currentUser._id,
       });
+      console.log("Booking created:", response.data);
     } catch (error) {
       console.error("Error creating booking:", error);
     }
@@ -52,12 +56,22 @@ const BookingComponent = () => {
 
   return (
     <div>
-      <h2>Booking</h2>
-      <label>Date:</label>
-      <input type="date" value={date} onChange={handleDateChange} />
-      <label>Time:</label>
-      <input type="time" value={time} onChange={handleTimeChange} />
-      <Button onClick={submitBooking}>Submit</Button>
+      <h1>Booking</h1>
+      <form className='booking-form'>
+        <label>Date:</label>
+        <input type="date" value={date} onChange={handleDateChange} />
+        <label>Time:</label>
+        <input type="time" value={time} onChange={handleTimeChange} />
+        <Button onClick={submitBooking}>Submit</Button>
+        <div className='spacer'></div>
+        <Button
+          color="info"
+          onClick={routeListings}
+          size="lg"
+          variant="solid"
+          fullWidth
+        >Cancel</Button>
+      </form>
     </div>
   );
 };

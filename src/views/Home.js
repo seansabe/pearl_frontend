@@ -7,6 +7,7 @@ import Profile from "./Profile";
 import Login from "./Login";
 import SecSettings from "./SecSettings";
 import DashboardProvider from "./DashboardProvider";
+import Booking from "./Booking";
 
 export default function Home() {
     const [selectedEndpoint, setSelectedEndpoint] = useState("Listings");
@@ -18,7 +19,8 @@ export default function Home() {
         <div className="main-container">
             <Nav onNavClick={handleNavClick}></Nav>
             <div className="content-container">
-                {selectedEndpoint === 'Listings' && <Listings />}
+                {selectedEndpoint === 'Listings' && <Listings handleNavClick={handleNavClick} />}
+                {selectedEndpoint === 'Booking' && <Booking handleNavClick={handleNavClick} />}
                 {selectedEndpoint === 'CreatePost' && <CreatePost handleNavClick={handleNavClick} />}
                 {selectedEndpoint === 'Profile' && <Profile handleNavClick={handleNavClick} />}
                 {selectedEndpoint === 'SecSettings' && <SecSettings handleNavClick={handleNavClick} />}

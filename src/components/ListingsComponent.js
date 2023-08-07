@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/joy";
 import { api } from "../utils/api";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import CustomRating from "./CustomRating";
 
-const ListingComponent = () => {
+const ListingComponent = (props) => {
   const [listings, setListings] = useState([]);
 
   const getUserInfo = async (userId) => {
@@ -39,11 +39,16 @@ const ListingComponent = () => {
 
 
   // Inside the ListingComponent
+  /*
   const navigate = useNavigate();
 
   const handleBook = (listingId) => {
     navigate(`/booking/${listingId}`);
-  };
+  };*/
+
+  const routeBooking = (listingId) => {
+    props.handleNavClick("Booking");
+  }
 
   return (
     <div className="card-grid">
@@ -76,7 +81,7 @@ const ListingComponent = () => {
             <Button
               className="card-button"
               color="info"
-              onClick={() => handleBook(listing._id)}
+              onClick={() => routeBooking(listing._id)}
               size="lg"
               variant="solid"
               fullWidth

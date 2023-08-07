@@ -8,6 +8,7 @@ export default function Nav({ onNavClick }) {
         SecSettings: "SecSettings",
         MyServices: "MyServices",
         MyBookings: "MyBookings",
+        Booking: "Booking",
     };
 
     const handleNavClick = (endpoint) => {

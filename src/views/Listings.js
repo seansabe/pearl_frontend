@@ -4,11 +4,11 @@ import ListingsComponent from '../components/ListingsComponent';
 import '../css/listings.css'
 
 
-export default function Listings() {
+export default function Listings(props) {
   return (
     <div className="listing-container">
       <Search />
-      <ListingsComponent></ListingsComponent>
+      <ListingsComponent handleNavClick={props.handleNavClick}></ListingsComponent>
     </div>
   );
 }

@@ -83,8 +83,6 @@ export default function ProfileForm(props) {
         props.handleNavClick("SecSettings");
     }
 
-
-
     const handleSaveButton = async () => {
         setMessage('');
         if (firstName === "" || lastName === "" || address === "" || city === "" || state === "" || zip === "" || phone === "" || email === "") {
