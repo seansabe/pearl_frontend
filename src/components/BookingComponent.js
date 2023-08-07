@@ -13,7 +13,7 @@ import { DigitalClock } from '@mui/x-date-pickers/DigitalClock';
 const BookingComponent = (props) => {
   const { id } = useParams();
   const [date, setDate] = useState(dayjs(Date.now()));
-  const [time, setTime] = useState(dayjs('2022-04-17T12:00'));
+  const [time, setTime] = useState(dayjs('2022-04-17T06:00'));
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -80,6 +80,10 @@ const BookingComponent = (props) => {
             </div>
             <div className="time-picker">
               <DigitalClock
+                disableIgnoringDatePartForTimeValidation={true}
+                minTime={dayjs('2022-04-17T06:00')}
+                maxTime={dayjs('2022-04-17T18:00')}
+
                 label="Time"
                 value={time}
                 onChange={(newTime) => setTime(newTime)}
