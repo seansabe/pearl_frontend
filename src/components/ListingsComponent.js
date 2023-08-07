@@ -16,6 +16,7 @@ const ListingComponent = () => {
   };
 
   useEffect(() => {
+    
     const fetchListings = async () => {
       try {
         const response = await axios.get(`${api}/service`);

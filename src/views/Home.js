@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Nav from "../components/NavComponent";
 import '../css/home.css'
 import Listings from "./Listings";
+import MyHires from "./MyHires";
 import CreatePost from "./CreatePost";
 import Profile from "./Profile";
 import Login from "./Login";
@@ -18,6 +19,7 @@ export default function Home() {
         <div>
             <Nav onNavClick={handleNavClick}></Nav>
             {selectedEndpoint === 'Listings' && <Listings />}
+            {selectedEndpoint === 'MyHires' && <MyHires />}
             {selectedEndpoint === 'CreatePost' && <CreatePost handleNavClick={handleNavClick} />}
             {selectedEndpoint === 'Profile' && <Profile handleNavClick={handleNavClick} />}
             {selectedEndpoint === 'SecSettings' && <SecSettings handleNavClick={handleNavClick} />}
