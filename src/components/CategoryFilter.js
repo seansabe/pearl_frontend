@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@mui/joy/Button";
 import axios from "axios";
+import { api } from "../utils/api";
 
 const categories = ["Hair", "Lash", "Make up"];
 
@@ -8,7 +9,7 @@ const CategoryFilter = ({ listings, setFilteredServices, setShowFiltered }) => {
   const getUserInfo = async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5001/api/user/${userId}`
+        `${api}/user/${userId}`
       );
       return response.data;
     } catch (error) {

@@ -4,6 +4,7 @@ import ListingsComponent from "../components/ListingsComponent";
 import CategoryFilter from "../components/CategoryFilter";
 import "../css/listings.css";
 import axios from "axios";
+import { api } from "../utils/api";
 
 export default function Listings(props) {
   const [listings, setListings] = useState([]);
@@ -13,7 +14,7 @@ export default function Listings(props) {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/service`);
+        const response = await axios.get(`${api}/service`);
         setListings(response.data);
       } catch (error) {
         console.error("Error fetching listings:", error);
