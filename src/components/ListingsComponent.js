@@ -21,10 +21,16 @@ const ListingComponent = () => {
       try {
         const response = await axios.get(`${api}/service`);
         const listingsData = response.data;
-
-        // Fetch the user(professional) information for each listing
+    
+        // Fetch the current user's information
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+    
+        // Filter out listings where userId is equal to the current user's id
+        const filteredListingsData = listingsData.filter(listing => listing.userId !== currentUser._id);
+    
+        // Fetch the user (professional) information for each listing
         const updatedListings = await Promise.all(
-          listingsData.map(async (listing) => {
+          filteredListingsData.map(async (listing) => {
             let user = await getUserInfo(listing.userId);
             return { ...listing, user };
           })
@@ -34,6 +40,7 @@ const ListingComponent = () => {
         console.error("Error fetching listings:", error);
       }
     };
+    
 
     fetchListings();
   }, []);

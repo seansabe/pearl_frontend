@@ -32,6 +32,8 @@ const DashboardProviderComponent = () => {
     const [editOpen, setEditOpen] = useState(false); // open/close the edit dialog
     const [selectedAppointment, setSelectedAppointment] = useState(null); // the appointment to be edited
     const [cancelOpen, setCancelOpen] = useState(false); // open/close the cancel dialog
+    const [selectedService, setSelectedService] = useState(null); // the service to be removed
+    const [removeOpen, setRemoveOpen] = useState(false); // open/close the remove dialog
 
     const handleClickOpen = (appointment) => {
         setEditOpen(true);
@@ -48,6 +50,15 @@ const DashboardProviderComponent = () => {
 
     const handleCancelClose = () => {
         setCancelOpen(false);
+    };
+
+    const handleRemoveClickOpen = (service) => {
+        setRemoveOpen(true);
+        setSelectedService(service);
+    };
+
+    const handleRemoveClose = () => {
+        setRemoveOpen(false);
     };
 
 
@@ -270,10 +281,7 @@ const DashboardProviderComponent = () => {
                                     <td>${service.price}</td>
                                     <td>
                                         <Box sx={{ display: 'flex', gap: 1 }}>
-                                            <Button size="sm" variant="soft" color="neutral">
-                                                Edit
-                                            </Button>
-                                            <Button size="sm" variant="soft" color="danger">
+                                            <Button size="sm" variant="soft" color="danger" onClick={() => handleRemoveClickOpen(service)}>
                                                 Remove
                                             </Button>
                                         </Box>
@@ -287,73 +295,6 @@ const DashboardProviderComponent = () => {
         );
     };
 
-    // TODO
-    const DialogEditService = () => {
-        const [type, setType] = useState("");
-        const handleChangeType = (event) => {
-            setType(event.target.value);
-        };
-
-        return (
-            <Dialog open={editOpen} onClose={handleClose}>
-                <DialogTitle>Edit a Service</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="serviceType"
-                        label="Service Type"
-                        fullWidth
-                        value={selectedAppointment ? selectedAppointment.kindOfService || "" : ""}
-                        variant="standard"
-                        InputProps={{
-                            readOnly: true,
-                            style: {
-                                color: 'rgba(0, 0, 0, 0.3)', // Pasive Field
-                            },
-                        }}
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="serviceName"
-                        label="Service Name"
-                        fullWidth
-                        value={selectedAppointment ? selectedAppointment.serviceName || "" : ""}
-                        variant="standard"
-                    />
-                    <TextField
-                        margin="dense"
-                        id="serviceDescription"
-                        label="Service Description"
-                        fullWidth
-                        value={selectedAppointment ? selectedAppointment.description || "" : ""}
-                        variant="standard"
-                    />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DateField', 'TimeField']}>
-                            <DemoItem label="Appointment Date" id="appointmentDate" >
-                                <DateField defaultValue={selectedAppointment ? dayjs(selectedAppointment.date) || null : null} />
-                            </DemoItem>
-                            <DemoItem label="Appointment Time" id="appointmentTime">
-                                <TimeField defaultValue={selectedAppointment ? dayjs('2000-01-01T' + selectedAppointment.time) || null : null} />
-                            </DemoItem>
-                        </DemoContainer>
-                    </LocalizationProvider>
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        fullWidth
-                        variant="standard"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
-                </DialogActions>
-            </Dialog>
-        );
-    };
 
     const DialogEditAppointment = () => {
         const [selectedDate, setSelectedDate] = useState(null);
@@ -512,15 +453,51 @@ const DashboardProviderComponent = () => {
         </DialogActions>
       </Dialog>
         );
-
-
     };  
 
+    const DialogRemoveService = () => {
+        const handleRemove = () => {
+            const removeService = async () => {
+                try {
+                    const response = await axios.delete(`${api}/service/${selectedService._id}`);
+                    if(response.status === 200) {
+                        setServices(services.filter((service) => service._id !== selectedService._id));
+                    }
+                } catch (error) {
+                    console.error("Error removing service:", error);
+                }
+            };
+            removeService();
+            handleRemoveClose();
+            fetchServicesForCurrentUser();
+        };
+        return (
+            <Dialog open={removeOpen}
+                    onClose={handleRemoveClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to remove this service?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You will not be able to undo this action.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleRemoveClose}>Cancel</Button>
+          <Button onClick={handleRemove} autoFocus>Yes</Button>
+        </DialogActions>
+      </Dialog>
+        );
+    }; 
 
     return (
         <div>
             {DialogEditAppointment()}
             {DialogCancelAppointment()}
+            {DialogRemoveService()}
             <Box sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
                 <Tabs
                     aria-label="Outlined tabs"
