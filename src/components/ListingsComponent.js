@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@mui/joy";
 import { api } from "../utils/api";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CustomRating from "./CustomRating";
 import BookingComponent from "./BookingComponent";
 import { Modal } from '@mui/joy';
@@ -139,7 +139,7 @@ const ListingComponent = ({ showFiltered, filteredServices }) => {
 
   const handleBook = (listingId) => {
     navigate(`/booking/${listingId}`);
-  };*/
+  };
 
   //const routeBooking = () => {
   //  props.handleNavClick("Booking");
