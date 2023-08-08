@@ -5,18 +5,20 @@ import { api } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import CustomRating from "./CustomRating";
 
-const ListingComponent = () => {
+const ListingComponent = ({ showFiltered, filteredServices }) => {
   const [listings, setListings] = useState([]);
 
   const getUserInfo = async (userId) => {
-    const response = await axios.get(`${api}/user/${userId}`);
-    const user = response.data;
-    //let fullName = `${user.firstName} ${user.lastName}`;
-    return user;
+    try {
+      const response = await axios.get(`${api}/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return null; // or some default user object
+    }
   };
 
   useEffect(() => {
-    
     const fetchListings = async () => {
       try {
         const response = await axios.get(`${api}/service`);
@@ -38,8 +40,6 @@ const ListingComponent = () => {
     fetchListings();
   }, []);
 
-
-  // Inside the ListingComponent
   const navigate = useNavigate();
 
   const handleBook = (listingId) => {
@@ -48,10 +48,8 @@ const ListingComponent = () => {
 
   return (
     <div className="card-grid">
-      {listings.map((listing) => (
-        <div
-          key={listing._id}
-          className="card">
+      {(showFiltered ? filteredServices : listings).map((listing) => (
+        <div key={listing._id} className="card">
           <img
             src={
               process.env.PUBLIC_URL +
@@ -64,16 +62,22 @@ const ListingComponent = () => {
           />
           <div className="card-body">
             <div className="card-rating">
-              <CustomRating />{/* make dynamic */}
+              <CustomRating />
+              {/* make dynamic */}
               <div className="card-service-type">{listing.kindOfService}</div>
             </div>
             <h2 className="card-title">
               {listing.name}
-              <span className="card-user"> by {listing.user.firstName}</span>
+              <span className="card-user">
+                {listing.user ? ` by ${listing.user.firstName}` : " Loading..."}
+              </span>
             </h2>
-            <div className="card-address">{listing.user.city}</div>
-            <div
-              className="card-service-description">
+            <div className="card-address">
+              {listing && listing.user && listing.user.city
+                ? listing.user.city
+                : " Loading..."}
+            </div>
+            <div className="card-service-description">
               {listing.name} Services Starting From ${listing.price}{" "}
               {listing.description}{" "}
             </div>

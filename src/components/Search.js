@@ -1,11 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Input from '@mui/joy/Input';
-import Button from '@mui/joy/Button';
+import Input from "@mui/joy/Input";
+import Button from "@mui/joy/Button";
 
-const Search = () => {
+const Search = ({ setFilteredServices, setShowFiltered }) => {
   const [searchWord, setSearchWord] = useState("");
-  const [services, setServices] = useState([]);
+
+  const getUserInfo = async (userId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5001/api/user/${userId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return null; // or some default user object
+    }
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -14,7 +25,17 @@ const Search = () => {
       const response = await axios.get(
         `http://localhost:5001/api/search?search=${searchWord}`
       );
-      setServices(response.data);
+
+      const searchData = response.data;
+
+      const updatedSearchData = await Promise.all(
+        searchData.map(async (listing) => {
+          let user = await getUserInfo(listing.userId);
+          return { ...listing, user };
+        })
+      );
+      setFilteredServices(updatedSearchData);
+      setShowFiltered(true);
     } catch (err) {
       console.error(err.message);
     }
@@ -24,7 +45,7 @@ const Search = () => {
     <div className="search-container">
       <form onSubmit={handleSearch}>
         <Input
-          sx={{ '--Input-decoratorChildHeight': '45px' }}
+          sx={{ "--Input-decoratorChildHeight": "45px" }}
           placeholder="Search services"
           type="text"
           color="info"
@@ -43,15 +64,6 @@ const Search = () => {
           }
         />
       </form>
-      <div>
-        {services.map((service) => (
-          <div key={service._id}>
-            <h2>{service.serviceName}</h2>
-            <p>{service.description}</p>
-            {/* Render other service details */}
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
