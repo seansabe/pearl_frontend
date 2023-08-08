@@ -10,7 +10,8 @@ import { ModalClose } from '@mui/joy';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 
-const ListingComponent = (props) => {
+
+const ListingComponent = ({ showFiltered, filteredServices }) => {
   const [listings, setListings] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   // const for Modal Box
@@ -26,10 +27,13 @@ const ListingComponent = (props) => {
   };
 
   const getUserInfo = async (userId) => {
-    const response = await axios.get(`${api}/user/${userId}`);
-    const user = response.data;
-    //let fullName = `${user.firstName} ${user.lastName}`;
-    return user;
+    try {
+      const response = await axios.get(`${api}/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return null; // or some default user object
+    }
   };
   const [bookingOpen, setBookingOpen] = useState(false); // open or close booking component
   const [selectedListing, setSelectedListing] = useState(null); // selected listing to book
@@ -102,7 +106,6 @@ const ListingComponent = (props) => {
     }
   };
   useEffect(() => {
-
     const fetchListings = async () => {
       try {
         const response = await axios.get(`${api}/service`);
@@ -132,8 +135,6 @@ const ListingComponent = (props) => {
     fetchCurrentUser();
   }, []);
 
-  // Inside the ListingComponent
-  /*
   const navigate = useNavigate();
 
   const handleBook = (listingId) => {
@@ -155,7 +156,7 @@ const ListingComponent = (props) => {
           onClose={openBookingModal}
         />
       )}
-      {listings.map((listing) => (
+      {(showFiltered ? filteredServices : listings).map((listing) => (
         <div
           key={listing._id}
           className="card">
@@ -170,7 +171,6 @@ const ListingComponent = (props) => {
               <div className="card-service-type">{listing.kindOfService}</div>
             </div>
             <h2 className="card-title"> {listing.name}</h2>
-
             <div className="tag">Professional</div>
             <div className="card-user"> by {listing.user.firstName}</div>
             <div className="tag">Location</div>
@@ -179,7 +179,6 @@ const ListingComponent = (props) => {
             <div className="card-service-price">${listing.price}</div>
             <div className="tag">Description</div>
             <div className="card-service-description">{listing.description}{" "}</div>
-
             <div className='spacer'></div>
             <Button
               className="card-button"
