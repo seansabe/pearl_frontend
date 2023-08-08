@@ -1,11 +1,11 @@
 import React from "react";
-import Search from "../components/Search";
 import BookingComponent from "../components/BookingComponent";
+import "../css/listings.css";
 
-export default function Listings() {
+export default function Booking(props) {
   return (
-    <div>
-      <BookingComponent></BookingComponent>
+    <div className="booking-container">
+      <BookingComponent handleNavClick={props.handleNavClick}></BookingComponent>
     </div>
   );
 }

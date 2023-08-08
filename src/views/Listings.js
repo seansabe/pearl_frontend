@@ -5,7 +5,7 @@ import CategoryFilter from "../components/CategoryFilter";
 import "../css/listings.css";
 import axios from "axios";
 
-export default function Listings() {
+export default function Listings(props) {
   const [listings, setListings] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [showFiltered, setShowFiltered] = useState(false);
@@ -35,6 +35,7 @@ export default function Listings() {
         setShowFiltered={setShowFiltered}
       />
       <ListingsComponent
+        handleNavClick={props.handleNavClick}
         listings={listings}
         setListings={setListings}
         showFiltered={showFiltered}
