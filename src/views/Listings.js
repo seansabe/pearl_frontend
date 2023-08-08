@@ -25,15 +25,17 @@ export default function Listings(props) {
 
   return (
     <div className="listing-container">
-      <Search
-        setFilteredServices={setFilteredServices}
-        setShowFiltered={setShowFiltered}
-      />
-      <CategoryFilter
-        listings={listings}
-        setFilteredServices={setFilteredServices}
-        setShowFiltered={setShowFiltered}
-      />
+      <div className="listing-header">
+        <CategoryFilter
+          listings={listings}
+          setFilteredServices={setFilteredServices}
+          setShowFiltered={setShowFiltered}
+        />
+        <Search
+          setFilteredServices={setFilteredServices}
+          setShowFiltered={setShowFiltered}
+        />
+      </div>
       <ListingsComponent
         handleNavClick={props.handleNavClick}
         listings={listings}

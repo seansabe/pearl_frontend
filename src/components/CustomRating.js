@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Typography from '@mui/material/Typography';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -17,17 +16,17 @@ const StyledRating = styled(Rating)({
 
 export default function CustomRating() {
   return (
-      <Box sx={{display: 'flex', alignItems: 'center' }}>
-        <StyledRating
-          style={{ marginTop: "4px" }}
-          size="small"
-          name="customized-color"
-          defaultValue={4}
-          getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
-          precision={0.5}
-          icon={<FavoriteIcon fontSize="inherit" />}
-          emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-        />
-      </Box>
-    );
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <StyledRating
+        style={{ marginTop: "4px" }}
+        size="small"
+        name="customized-color"
+        defaultValue={4}
+        getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+        precision={0.5}
+        icon={<FavoriteIcon fontSize="inherit" />}
+        emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+      />
+    </Box>
+  );
 }

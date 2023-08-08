@@ -35,11 +35,13 @@ const CategoryFilter = ({ listings, setFilteredServices, setShowFiltered }) => {
 
   return (
     <div className="filter-container">
+      <h3>Filter by category:</h3>
       {categories.map((category) => (
         <Button
           key={category}
           variant="solid"
           color="info"
+          size="sm"
           onClick={() => handleFilter(category)}
         >
           {category}

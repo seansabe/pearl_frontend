@@ -110,13 +110,13 @@ const ListingComponent = ({ showFiltered, filteredServices }) => {
       try {
         const response = await axios.get(`${api}/service`);
         const listingsData = response.data;
-    
+
         // Fetch the current user's information
         const currentUser = JSON.parse(localStorage.getItem('user'));
-    
+
         // Filter out listings where userId is equal to the current user's id
         const filteredListingsData = listingsData.filter(listing => listing.userId !== currentUser._id);
-    
+
         // Fetch the user (professional) information for each listing
         const updatedListings = await Promise.all(
           filteredListingsData.map(async (listing) => {
@@ -129,7 +129,7 @@ const ListingComponent = ({ showFiltered, filteredServices }) => {
         console.error("Error fetching listings:", error);
       }
     };
-    
+
 
     fetchListings();
     fetchCurrentUser();
