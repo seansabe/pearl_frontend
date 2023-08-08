@@ -148,7 +148,7 @@ const ListingComponent = ({ showFiltered, filteredServices }) => {
 
   return (
     <div className="card-grid">
-      {<BasicModal />}
+      {/*<BasicModal />*/}
       {bookingOpen && (
         <BookingComponent
           selectedListing={selectedListing}

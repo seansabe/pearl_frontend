@@ -67,8 +67,8 @@ const BookingComponent = (props) => {
       open={myDialogOpen}
       onClose={handleBookingClose}
     >
-      <div style={{ width: '400px', marginLeft: '20px', marginRight: '20px', marginBottom: '20px' }}>
-        <h1 style={{ marginLeft: '20px' }}>Booking</h1>
+      <div className='booking-form' style={{ width: '400px', marginLeft: '20px', marginRight: '20px', marginBottom: '20px' }}>
+        <h1>Booking</h1>
         {/*<label>Date:</label>*/}
         {/*<input type="date" value={date} onChange={handleDateChange} />*/}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -111,7 +111,7 @@ const BookingComponent = (props) => {
         <Button
           color="info"
           onClick={handleBookingClose}
-          size="md"
+          size="lg"
           variant="solid"
           fullWidth
         >Cancel</Button>
