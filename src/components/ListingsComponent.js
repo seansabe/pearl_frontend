@@ -4,9 +4,26 @@ import { Button } from "@mui/joy";
 import { api } from "../utils/api";
 //import { useNavigate } from "react-router-dom";
 import CustomRating from "./CustomRating";
+import BookingComponent from "./BookingComponent";
+import { Modal } from '@mui/joy';
+import { ModalClose } from '@mui/joy';
+import Typography from '@mui/joy/Typography';
+import Sheet from '@mui/joy/Sheet';
 
 const ListingComponent = (props) => {
   const [listings, setListings] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  // const for Modal Box
+  const [isBookingModalOpen, setBookingModalOpen] = useState(false);
+
+  const openBookingModal = () => {
+    setBookingModalOpen(true);
+  };
+
+  const closeBookingModal = () => {
+    setBookingOpen(false);
+    setBookingModalOpen(false);
+  };
 
   const getUserInfo = async (userId) => {
     const response = await axios.get(`${api}/user/${userId}`);
@@ -14,9 +31,78 @@ const ListingComponent = (props) => {
     //let fullName = `${user.firstName} ${user.lastName}`;
     return user;
   };
+  const [bookingOpen, setBookingOpen] = useState(false); // open or close booking component
+  const [selectedListing, setSelectedListing] = useState(null); // selected listing to book
 
+  const handleBookingOpen = (listing) => {
+    setBookingOpen(true);
+    setSelectedListing(listing);
+  };
+
+  const BasicModal = () => {
+    //console.log("BasicModal called");
+    //console.log("isBookingModalOpen:", isBookingModalOpen);
+    //console.log("closeBookingModal:", closeBookingModal);
+    return (
+      <React.Fragment>
+        <Modal
+          open={isBookingModalOpen}
+          onClose={closeBookingModal}
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Sheet
+            variant="soft"
+            color="success"
+            sx={{
+              maxWidth: 500,
+              borderRadius: 'md',
+              p: 3,
+              boxShadow: 'lg',
+            }}
+          >
+            <ModalClose
+              variant="soft"
+              sx={{
+                top: 'calc(-1/4 * var(--IconButton-size))',
+                right: 'calc(-1/4 * var(--IconButton-size))',
+                boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+                borderRadius: '50%',
+                bgcolor: 'background.surface',
+              }}
+            />
+            <Typography
+              component="h2"
+              id="modal-title"
+              level="h4"
+              textColor="inherit"
+              fontWeight="lg"
+              mb={1}
+            >
+              Success
+            </Typography>
+            <Typography id="modal-desc" textColor="text.tertiary">
+              Your booking has been created.
+            </Typography>
+          </Sheet>
+        </Modal>
+      </React.Fragment>
+    );
+  }
+  const fetchCurrentUser = async () => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setCurrentUser(user);
+      } else {
+        console.log("Current user not found.");
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  };
   useEffect(() => {
-    
+
     const fetchListings = async () => {
       try {
         const response = await axios.get(`${api}/service`);
@@ -36,6 +122,7 @@ const ListingComponent = (props) => {
     };
 
     fetchListings();
+    fetchCurrentUser();
   }, []);
 
   // Inside the ListingComponent
@@ -46,12 +133,21 @@ const ListingComponent = (props) => {
     navigate(`/booking/${listingId}`);
   };*/
 
-  const routeBooking = () => {
-    props.handleNavClick("Booking");
-  }
+  //const routeBooking = () => {
+  //  props.handleNavClick("Booking");
+
+  //}
 
   return (
     <div className="card-grid">
+      {<BasicModal />}
+      {bookingOpen && (
+        <BookingComponent
+          selectedListing={selectedListing}
+          currentUser={currentUser}
+          onClose={openBookingModal}
+        />
+      )}
       {listings.map((listing) => (
         <div
           key={listing._id}
@@ -81,7 +177,7 @@ const ListingComponent = (props) => {
             <Button
               className="card-button"
               color="info"
-              onClick={() => routeBooking()}
+              onClick={() => handleBookingOpen(listing)}
               size="lg"
               variant="solid"
               fullWidth
