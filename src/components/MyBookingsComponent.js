@@ -6,7 +6,7 @@ import { api } from "../utils/api";
 import CustomRating from "./CustomRating";
 
 const MyBookingsComponent = () => {
-  const [hires, setHires] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [id, setId] = useState('');
 
   const getServiceInfo = async (serviceId) => {
@@ -26,25 +26,25 @@ const MyBookingsComponent = () => {
       const user = JSON.parse(storedUser);
       setId(user._id);
     }
-    const fetchHires = async () => {
 
+    const fetchBookings = async () => {
       try {
         const response = await axios.get(`${api}/booking/user/${id}`);
         const hiresData = response.data;
-        // Fetch the service information for each hire
-        const updatedHires = await Promise.all(
-          hiresData.map(async (hire) => {
-            let service = await getServiceInfo(hire.serviceId);
+        // Fetch the service information for each booking
+        const updatedBookings = await Promise.all(
+          hiresData.map(async (booking) => {
+            let service = await getServiceInfo(booking.serviceId);
             let user = await getUserInfo(service.userId);
-            return { ...hire, service, user };
+            return { ...booking, service, user };
           })
         );
-        setHires(updatedHires);
+        setBookings(updatedBookings);
       } catch (error) {
-        console.error("Error fetching Hires:", error);
+        console.error("Error fetching Bookings:", error);
       }
     }
-    fetchHires();
+    fetchBookings();
   }, [id]);
 
   const handleCancelBooking = async (hireId) => {
@@ -53,56 +53,56 @@ const MyBookingsComponent = () => {
     } catch (e) {
       console.error("Error deleting Booking", e);
     }
-    const fetchHires = async () => {
-
+    const fetchBookings = async () => {
       try {
         const response = await axios.get(`${api}/booking/user/${id}`);
-        const hiresData = response.data;
-        // Fetch the service information for each hire
+        const bookingData = response.data;
+        // Fetch the service information for each booking
         const updatedHires = await Promise.all(
-          hiresData.map(async (hire) => {
-            let service = await getServiceInfo(hire.serviceId);
+          bookingData.map(async (booking) => {
+            let service = await getServiceInfo(booking.serviceId);
             let user = await getUserInfo(service.userId);
-            return { ...hire, service, user };
+            return { ...booking, service, user };
           })
         );
-        setHires(updatedHires);
+        setBookings(updatedHires);
       } catch (error) {
-        console.error("Error fetching Hires:", error);
+        console.error("Error fetching Bookings:", error);
       }
     }
-    fetchHires();
+    fetchBookings();
   }
 
   return (
     <div className="card-grid">
-      {hires.map((hire) => (
+      {bookings.map((booking) => (
         <div
-          key={hire._id}
+          key={booking._id}
           className="card">
           <img
-            src={process.env.PUBLIC_URL + `/images/${hire.service.kindOfService.replace(/\s/g, "").toLowerCase()}.png`}
+            src={process.env.PUBLIC_URL + `/images/${booking.service.kindOfService.replace(/\s/g, "").toLowerCase()}.png`}
             className="card-img-top"
             alt=""
           />
           <div className="card-body">
             <div className="row">
               <div className="card-rating"><CustomRating />{/* make dynamic */}</div>
-              <div className="card-service-type">{hire.service.kindOfService}</div>
+              <div className="card-datetime">{booking.date.split("T")[0]} at {booking.time}</div>
+              <div className="card-service-type">{booking.service.kindOfService}</div>
             </div>
-            <h2 className="card-title">{hire.service.name}</h2>
+            <h2 className="card-title">{booking.service.name}</h2>
 
             <div className="tag">Professional</div>
-            <div className="card-user"> by {hire.service.firstName}</div>
+            <div className="card-user"> by {booking.user.firstName}</div>
             <div className="tag">Location</div>
-            <div className="card-address">{hire.user.city}</div>
+            <div className="card-address">{booking.user.city}</div>
             <div className="tag">Price</div>
-            <div className="card-service-price">${hire.service.price}</div>
+            <div className="card-service-price">${booking.service.price}</div>
             <div className="tag">Description</div>
-            <div className="card-service-description">{hire.service.description}{" "}</div>
+            <div className="card-service-description">{booking.service.description}{" "}</div>
             <Button
               color="info"
-              onClick={() => handleCancelBooking(hire._id)}
+              onClick={() => handleCancelBooking(booking._id)}
               size="lg"
               variant="solid"
               fullWidth

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
+import { api } from "../utils/api";
 
 const Search = ({ setFilteredServices, setShowFiltered }) => {
   const [searchWord, setSearchWord] = useState("");
@@ -9,7 +10,7 @@ const Search = ({ setFilteredServices, setShowFiltered }) => {
   const getUserInfo = async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5001/api/user/${userId}`
+        `${api}/user/${userId}`
       );
       return response.data;
     } catch (error) {
@@ -23,7 +24,7 @@ const Search = ({ setFilteredServices, setShowFiltered }) => {
 
     try {
       const response = await axios.get(
-        `http://localhost:5001/api/search?search=${searchWord}`
+        `${api}/search?search=${searchWord}`
       );
 
       const searchData = response.data;
